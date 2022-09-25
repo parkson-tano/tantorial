@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Student-Register{% endblock title %}
+
+{% block content %}
+ <form class="needs-validation" method="post" action="" novalidate>
+                {% csrf_token %} 
+    {{form}}
+ <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Create Account</button>
+              </div>
+ </form>
+{% endblock content %}

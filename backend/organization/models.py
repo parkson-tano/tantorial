@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from account.types import UserType
+from accounts.types import UserType
 from django.utils.translation import gettext as _
 
 User: UserType = get_user_model()
@@ -34,14 +34,14 @@ class Arm(models.Model):
     teachers = models.ManyToManyField("Teacher")
 
 
-class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    Organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+# class Teacher(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     Organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
 
-class Student(models.Model):
-    # Am using a many to many relationship here instead of a foreign key because
-    # user can belong to multiple schools. For example a student might belong to 
-    # a school but also be a student of some tutorship organization
-    classrooms = models.ManyToManyField(ClassRoom)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+# class Student(models.Model):
+#     # Am using a many to many relationship here instead of a foreign key because
+#     # user can belong to multiple schools. For example a student might belong to 
+#     # a school but also be a student of some tutorship organization
+#     classrooms = models.ManyToManyField(ClassRoom)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
