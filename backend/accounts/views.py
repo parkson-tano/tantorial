@@ -20,7 +20,7 @@ class RegisterView(CreateView):
 
     model = User
     form_class = UserRegistrationForm
-    success_url = reverse_lazy('tantorial_auth:index')
+    success_url = reverse_lazy('tantorial:index')
     account_type: str  # should be provided by a child class
     template_name: str  # should be provided by a child class
 
