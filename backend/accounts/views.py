@@ -1,48 +1,54 @@
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy, reverse
-from django.views import View
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
-from .forms import *
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from .forms import UserRegistrationForm
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 User = get_user_model()
 # Create your views here.
 
+
 class RegisterLanderView(TemplateView):
     template_name = 'main\signupLander.html'
 
-class StudentRegister(CreateView):
-    pass
-    # template_name = 'main/student-signup.html'
-    # form_class = UserRegistrationForm
-    # success_url = reverse_lazy('tantorial_auth:index')
 
-    # def form_valid(self, form):
-    #     password = form.cleaned_data.get('password')
-    #     email = form.cleaned_data.get('email')
-    #     acc_type = 'student'
-    #     first_name = form.cleaned_data.get('first_name')
-    #     last_name = form.cleaned_data.get('last_name')
-    #     phone_number = form.cleaned_data.get('phone_number')
-    #     user = User.objects.create_user(username=first_name, email=email, password=password, account_type = acc_type,
-    #      first_name = first_name, last_name=last_name, phone_number=phone_number)
-    #     form.instance.user = user
-    #     login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-    #     return super().form_valid(form)
+class RegisterView(CreateView):
+    """
+    Serves as a base view for all user registration activities
+    It should not be called directly
+    """
 
+    model = User
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('tantorial_auth:index')
+    account_type: str  # should be provided by a child class
+    template_name: str  # should be provided by a child class
 
-class ParentRegister(CreateView):
-    pass
-
-
-class TeacherRegister(CreateView):
-    pass
+    def form_valid(self, form):
+        object = form.save(commit=False)
+        object.account_type = self.account_type
+        object.save()
+        user = authenticate(
+            username=form.cleaned_data['email'], password=form.cleaned_data['password1'],)
+        login(self.request, user)
+        return HttpResponseRedirect(self.success_url)
 
 
-class SchoolRegister(CreateView):
-    pass
+class StudentRegister(RegisterView):
+    template_name = 'main/student-signup.html'
+    account_type = "student"
 
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect('tantorial:index')
+
+class ParentRegister(RegisterView):
+    template_name = 'main/student-signup.html'
+    account_type = "parent"
+
+
+class TeacherRegister(RegisterView):
+    template_name = 'main/student-signup.html'
+    account_type = "teacher"
+
+
+class SchoolRegister(RegisterView):
+    template_name = 'main/student-signup.html'
+    account_type = "school"
