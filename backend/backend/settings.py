@@ -174,6 +174,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 LOGOUT_URL = '/logout'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
