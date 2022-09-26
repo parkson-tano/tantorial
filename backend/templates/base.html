@@ -17,7 +17,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-md bg-gradient-to-r from-green-200 via-red-200 to-yellow-200 ">
-      <div class="container-fluid py-2">
+      <div class="container-fluid py-1">
         <a class="navbar-brand mx-md-5 font-bold font-serif" href="{% url 'tantorial:index' %}">Tantorial</a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -53,7 +53,9 @@
               <a class="nav-link mx-3 font-bold font-serif" href="{% url 'tantorial_auth:register-option' %}">Sign Up</a>
             </li>
             <li class="nav-item">
+              
               <a href="{% url 'account_login' %}">
+                
                 <button class="btn mx-2 rounded-full bg-orange-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif">Login</button>
               </a>
                
@@ -65,7 +67,7 @@
         </div>
       </div>
     </nav>
-    <div>
+    <div class='container-fluid'>
         {% block content %}{% endblock content %}
     </div>
     <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
