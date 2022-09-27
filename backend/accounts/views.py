@@ -4,15 +4,16 @@ from .forms import UserRegistrationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
+
+
 User = get_user_model()
-# Create your views here.
 
 
 class RegisterLanderView(TemplateView):
     template_name = 'main\signupLander.html'
 
 
-class RegisterView(CreateView):
+class RegisterBaseView(CreateView):
     """
     Serves as a base view for all user registration activities
     It should not be called directly
@@ -34,21 +35,21 @@ class RegisterView(CreateView):
         return HttpResponseRedirect(self.success_url)
 
 
-class StudentRegister(RegisterView):
+class StudentRegister(RegisterBaseView):
     template_name = 'main/student-signup.html'
     account_type = "student"
 
 
-class ParentRegister(RegisterView):
+class ParentRegister(RegisterBaseView):
     template_name = 'main/student-signup.html'
     account_type = "parent"
 
 
-class TeacherRegister(RegisterView):
+class TeacherRegister(RegisterBaseView):
     template_name = 'main/student-signup.html'
     account_type = "teacher"
 
 
-class SchoolRegister(RegisterView):
+class SchoolRegister(RegisterBaseView):
     template_name = 'main/student-signup.html'
     account_type = "school"
