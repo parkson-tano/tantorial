@@ -4,16 +4,16 @@ from .forms import UserRegistrationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
-
+from .mixins import RedirectAuthenticatedUserMixin
 
 User = get_user_model()
 
 
-class RegisterLanderView(TemplateView):
+class RegisterLanderView(RedirectAuthenticatedUserMixin, TemplateView):
     template_name = 'main\signupLander.html'
 
 
-class RegisterBaseView(CreateView):
+class RegisterBaseView(RedirectAuthenticatedUserMixin, CreateView):
     """
     Serves as a base view for all user registration activities
     It should not be called directly
