@@ -25,6 +25,18 @@ class User(AbstractUser):
         upload_to=user_profile_path, default="images/defaults/defaultuserprofile.svg")
     account_type = models.CharField(
         max_length=32, choices=ACCOUNT_TYPE, null=True, blank=True)
+    subsystem = models.ForeignKey(
+        Subsystem, on_delete=models.CASCADE, null=True, blank=True)
+    student_class = ChainedForeignKey(ClassRoom,
+                                      chained_field="subsystem",
+                                      chained_model_field="subsystem",
+                                      show_all=False,
+                                      auto_choose=True,
+                                      sort=True,
+                                      null=True,
+                                      blank=True
+                                      )
+    code = models.CharField(max_length=16, null=True, blank = True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
@@ -40,7 +52,6 @@ class SchoolProfile(models.Model):
     profile_pic = models.ImageField(
         upload_to='schoolprofile/', default="images/defaults/defaultuserprofile.svg")
     motto = models.CharField(max_length=256, null=True, blank=True)
-    code = models.CharField(max_length=16)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -69,7 +80,6 @@ class TeacherProfile(models.Model):
         null=True,
         blank=True
     )
-    code = models.CharField(max_length=16)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -93,7 +103,6 @@ class StudentProfile(models.Model):
                                       null=True,
                                       blank=True
                                       )
-    code = models.CharField(max_length=16)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

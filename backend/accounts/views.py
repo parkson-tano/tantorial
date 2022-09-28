@@ -20,23 +20,26 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
 from django.db.models import Q
+import uuid 
 User = get_user_model()
 
 
 class RegisterLanderView(RedirectAuthenticatedUserMixin, TemplateView):
-    template_name = 'main\signupLander.html'
+    template_name = 'signupLander.html'
 
 
 class RegisterBaseView(RedirectAuthenticatedUserMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
-    success_url = reverse_lazy('tantorial:index')
+    success_url = reverse_lazy('tantorial:index_feed')
+    code: str
     account_type: str  # should be provided by a child class
     template_name: str  # should be provided by a child class
 
     def form_valid(self, form):
         object = form.save(commit=False)
         object.account_type = self.account_type
+        object.code = self.code
         object.save()
         user = authenticate(
             username=form.cleaned_data['email'], password=form.cleaned_data['password1'],)
@@ -44,30 +47,35 @@ class RegisterBaseView(RedirectAuthenticatedUserMixin, CreateView):
         return HttpResponseRedirect(self.success_url)
 
 register_page =  'registration.html'
+student_register_page = 'student_register.html'
+
 class StudentRegister(RegisterBaseView):
-    template_name =  register_page
+    template_name =  student_register_page
     account_type = "student"
+    code = f'STD/{uuid.uuid4().hex[:6].upper()}/TAN'
 
 
 class ParentRegister(RegisterBaseView):
     template_name =  register_page
     account_type = "parent"
-
+    code = f'PRT/{uuid.uuid4().hex[:6].upper()}/TAN'
 
 
 class TeacherRegister(RegisterBaseView):
     template_name = register_page
     account_type = "teacher"
+    code = f'TUT/{uuid.uuid4().hex[:6].upper()}/TAN'
 
 
 class SchoolRegister(RegisterBaseView):
     template_name =  register_page
     account_type = "school"
+    code = f'SCH/{uuid.uuid4().hex[:6].upper()}/TAN'
 
 class LoginView(FormView):
 	template_name = 'login.html'
 	form_class =  LoginForm
-	success_url = reverse_lazy('tantorial:index')
+	success_url = reverse_lazy('tantorial:index_feed')
 
 	def form_valid(self, form):
 		email = form.cleaned_data.get('email')
