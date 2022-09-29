@@ -13,7 +13,7 @@ urlpatterns = [
     path('register/teacher/', TeacherRegister.as_view(), name='teacher-register'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('password_change/', PasswordChangeView, name='password_change'),
+    path('password_change/', passwordchange, name='password_change'),
     path('password_reset/', password_reset_request, name="password_reset"),
 
 ]
