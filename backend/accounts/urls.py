@@ -1,7 +1,6 @@
-from django.urls import path, reverse_lazy, include
+from django.urls import path, include
 
 from .views import *
-from django.contrib.auth import views as dj_auth_views
 
 app_name = 'tantorial_auth'
 
@@ -12,9 +11,9 @@ urlpatterns = [
     path('register/parent/', ParentRegister.as_view(), name='parent-register'),
     path('register/school/', SchoolRegister.as_view(), name='school-register'),
     path('register/teacher/', TeacherRegister.as_view(), name='teacher-register'),
-	path('login/', LoginView.as_view(), name='login'),
-	path('logout/', LogoutView.as_view(), name='logout'),
-	path('password_change', passwordchange, name='password_change'),
-    path('password_reset', password_reset_request, name="password_reset"),
-    
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('password_change/', passwordchange, name='password_change'),
+    path('password_reset/', password_reset_request, name="password_reset"),
+
 ]

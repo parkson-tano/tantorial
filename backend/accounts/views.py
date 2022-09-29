@@ -1,6 +1,6 @@
 from .forms import LoginForm, UserRegistrationForm
 from django.http import HttpResponseRedirect
-from django.contrib.auth import get_user_model
+
 from .mixins import RedirectAuthenticatedUserMixin
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
 from django.db.models import Q
 import uuid 
+from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
@@ -31,7 +32,7 @@ class RegisterLanderView(RedirectAuthenticatedUserMixin, TemplateView):
 class RegisterBaseView(RedirectAuthenticatedUserMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
-    success_url = reverse_lazy('tantorial:index_feed')
+    success_url = reverse_lazy('tantorial:feed_index')
     code: str
     account_type: str  # should be provided by a child class
     template_name: str  # should be provided by a child class

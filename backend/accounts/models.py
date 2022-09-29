@@ -1,3 +1,8 @@
+from pyexpat import model
+from random import choices
+from statistics import mode
+from tkinter.tix import Tree
+from tokenize import blank_re
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
@@ -15,12 +20,18 @@ ACCOUNT_TYPE = (
     ('school', 'School'),
 )
 
+RELATION = (
+    ('mother', 'Mother'),
+    ('father', 'Father'),
+    ('guardian', 'Guardian')
+)
 
 class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     username = models.CharField(
         max_length=20, blank=True, null=True, unique=False)
     phone_number = models.CharField(max_length=24)
+    gender = models.CharField(max_length = 10, choices = (('male', 'Male'), ('female', 'female')), null = True, blank = True)
     profile_pic = models.ImageField(
         upload_to=user_profile_path, default="images/defaults/defaultuserprofile.svg")
     account_type = models.CharField(
@@ -108,6 +119,14 @@ class StudentProfile(models.Model):
     def __str__(self):
         return self.user.get_full_name()
 
+class ParentProfile(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE,  related_name = 'parent')
+    child = models.ForeignKey(User, on_delete = models.SET_NULL, null=True, blank = True, related_name = 'child')
+    relation = models.CharField(max_length = 26, choices = RELATION, null = True, blank = True)
+    date_created = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return f'{self.child.first_name} parent'
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):

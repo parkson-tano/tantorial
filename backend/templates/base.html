@@ -35,6 +35,9 @@
             <li><a class="dropdown-item" href="#">My Profile</a></li>
             <li><a class="dropdown-item" href="#">My Account</a></li>
             <li><a class="dropdown-item" href="#">Reports</a></li>
+            {% if user.account_type == 'parent' %}
+            <li><a class="dropdown-item" href="{% url 'tantorial:child' %}">Children</a></li>
+            {% endif %}
             <li><a class="dropdown-item capitalize">{{user.account_type}}</a></li>
             
           </ul>
@@ -72,7 +75,13 @@
     <div class='container-fluid'>
         {% block content %}{% endblock content %}
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  </body>
+  	<script>
+		if (window.history.replaceState) {
+			window.history.replaceState(null, null, window.location.href);
+		}
+	</script>
+</body>
 </html>
