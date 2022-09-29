@@ -28,12 +28,18 @@
             {% if user.is_authenticated %}
            <li class="nav-item dropdown mb-xs-2">
           <a class="nav-link dropdown-toggle bg-gradient-to-r from-green-500 font-extrabold" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           {{user.first_name}}  {{user.last_name}}
+           {{user.get_full_name}}
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark bg-gradient-to-r from-indigo-500 to-purple-300">
+          <ul class="dropdown-menu dropdown-menu-dark bg-gradient-to-r from-green-600 to-purple-500">
+            <li><a class="dropdown-item capitalize">{{user.code}}</a></li>
             <li><a class="dropdown-item" href="#">My Profile</a></li>
             <li><a class="dropdown-item" href="#">My Account</a></li>
             <li><a class="dropdown-item" href="#">Reports</a></li>
+            {% if user.account_type == 'parent' %}
+            <li><a class="dropdown-item" href="{% url 'tantorial:child' %}">Children</a></li>
+            {% endif %}
+            <li><a class="dropdown-item capitalize">{{user.account_type}}</a></li>
+            
           </ul>
         </li>
           <li class="nav-item">
@@ -69,7 +75,13 @@
     <div class='container-fluid'>
         {% block content %}{% endblock content %}
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  </body>
+  	<script>
+		if (window.history.replaceState) {
+			window.history.replaceState(null, null, window.location.href);
+		}
+	</script>
+</body>
 </html>

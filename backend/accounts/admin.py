@@ -11,7 +11,7 @@ class UserAdmin(BaseUserAdmin):
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
         (_('user_info'), {'fields': ('profile_pic', 'phone_number',
-            'account_type', 'first_name', 'last_name',)}),
+            'account_type', 'first_name', 'last_name','code')}),
     )
     add_fieldsets = (
         (None, {
@@ -22,8 +22,8 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email', 'first_name', 'last_name', 'student_class', 
         'account_type')
     list_display = ('email', 'first_name', 'last_name', 'is_superuser', 
-        'account_type')
+        'account_type', 'code')
     ordering = ('email','account_type' )
 admin.site.register(User, UserAdmin)
 
-admin.site.register((StudentProfile, TeacherProfile, SchoolProfile))
+admin.site.register((StudentProfile, TeacherProfile, SchoolProfile, ParentProfile))

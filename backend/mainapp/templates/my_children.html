@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}MY Kids{% endblock title %}
+
+{% block content %}
+{% for child in children %}
+    <div class="alert alert-primary" role="alert">
+        {{child.child.get_full_name}}
+</div>
+{% endfor %}
+<!-- Button trigger modal -->
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add A child
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Child account</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" method="post" novalidate>
+
+            <div class="form-floating mb-3">
+              {% if error %}
+                   <div class="alert alert-danger" role="alert">
+                {{error}}
+</div>
+              {% endif %}
+         
+              {% csrf_token %}
+             {{form.media.js}}
+              <!-- <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"> -->
+              {{form|crispy}}
+               <div class="form-group">
+    <label for="exampleFormControlSelect1">Relationship</label>
+    <select class="form-control" id="exampleFormControlSelect1" name='relationship'>
+      <option value='father'>Father</option>
+      <option value='mother'>Mother</option>
+      <option value='guardian'>Guardian</option>
+    </select>
+  </div>
+              {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-lg mx-2 rounded-full bg-orange-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif type="submit" name='post_create'>Create account</button>
+            </div>
+           
+
+            <!-- <p class='text-center display-6'>OR</p> -->
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
