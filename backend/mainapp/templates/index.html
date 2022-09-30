@@ -13,7 +13,13 @@
           <button
             class="btn btn-lg rounded-full bg-orange-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-extrabold"
           >
-            Get Started
+          {% if user.is_authenticated %}
+             <a href="{% url 'tantorial:index_feed' %}">Get Started</a>
+          {% else %}
+            <a href="{% url 'tantorial_auth:login' %}">Get Started</a>
+          {% endif %}
+          
+            
           </button>
         </div>
       </div>

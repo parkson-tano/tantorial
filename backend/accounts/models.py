@@ -30,6 +30,10 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     username = models.CharField(
         max_length=20, blank=True, null=True, unique=False)
+    first_name = models.CharField(
+        max_length=56)
+    last_name = models.CharField(
+        max_length=56)
     phone_number = models.CharField(max_length=24)
     gender = models.CharField(max_length = 10, choices = (('male', 'Male'), ('female', 'female')), null = True, blank = True)
     profile_pic = models.ImageField(

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% comment %} {% load account socialaccount %} {% endcomment %}
+{% block title %}my_asseement{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="mx-5">
+        <div class="row px-5">
+            <p class="text-2xl mb-3">My Assessment</p>
+            {% for assessment in my_assessments %}
+
+            <div class="col col-md-6 col-12 col-sm-6 p-5 shadow-2xl hover:bg-gradient-to-r from-green-300">
+                <div class="card-header">
+                    <p class="fw-bold text-2xl text-black capitalize my-2">
+                        {{assessment.assessment_type}}
+                    </p>
+                    {% if assessment.publish %}
+                    <button type="button"
+                        class="btn rounded-full bg-blue-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                        class="btn bg-red-500">
+                        Already Publish and Ready for Student
+                    </button>
+                    <a href="{% url 'tantorial:manage_publish' assessment.id %}?action=unpublish">
+                        <button type="button"
+                            class="btn rounded-full bg-red-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                            class="btn bg-red-500">
+                            Unpublish or Stop?
+                        </button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'tantorial:manage_publish' assessment.id %}?action=publish">
+                        <button type="button"
+                            class="btn rounded-full bg-blue-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                            class="btn bg-red-500">
+                            Publish Now?
+                        </button>
+                    </a>
+
+                    {% endif %}
+                </div>
+                    <div class="flex">
+                        <p class="fw-bold text-2xl text-black capitalize my-2">
+                            {{assessment.title}}
+                        </p>
+
+                    </div>
+
+                    <p class="italic capitalize my-2 hover:text-2xl">
+                        Class: {{assessment.assessment_class}}
+                    </p>
+                    <p class="italic capitalize my-2 hover:text-2xl">
+                        Date: {{assessment.date_created}}
+                    </p>
+                    
+                <a href="">
+                <button type="button"
+                    class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                    class="btn bg-red-500">
+                    Add Questions
+                </button>
+                </a>
+                <a href="{% url 'tantorial:update_assessment' assessment.id %}">
+                    <button type="button"
+                    class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                    class="btn bg-red-500">
+                  Update
+                </button>
+                </a>
+
+            </div>
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

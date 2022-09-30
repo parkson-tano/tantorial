@@ -1,12 +1,15 @@
+from pydoc import describe
 from django.db import models
 from accounts.models import *
 from subsystem.models import *
 from smart_selects.db_fields import ChainedForeignKey
+from autoslug import AutoSlugField
 # Create your models here.
 
 class AssessmentType(models.Model):
 	title = models.CharField(max_length=256)
-
+	description = models.CharField(max_length = 256)
+	slug = AutoSlugField(populate_from='title')
 	def __str__(self):
 		return self.title
 
