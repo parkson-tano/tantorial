@@ -10,5 +10,6 @@ urlpatterns = [
     path('feed/assessment/my-assessments', TeacherAssessmentView.as_view(), name='my_assessment'),
     path('feed/create/my-assessment/publish-<int:id>/', ManageAssessmentView.as_view(), name = 'manage_publish'),
     path('feed/my-assessment/update/<int:pk>/', TeacherAssessmentUpdateView.as_view(), name='update_assessment'),
+        path('feed/my-assessment/delete/<int:pk>/', TeacherAssessmentDeleteView.as_view(), name='delete_assessment'),
 
 ]

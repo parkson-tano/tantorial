@@ -4,11 +4,12 @@ from django.shortcuts import HttpResponseRedirect, redirect, render
 import uuid
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
-                                  TemplateView, View, UpdateView)
+                                  TemplateView, View, UpdateView, DeleteView)
 from accounts.forms import *
 from accounts.models import ParentProfile
 from subsystem.models import Subsystem, ClassRoom
 from assessment.forms import *
+from django.contrib import messages
 # Create your views here.
 from django.contrib.auth import get_user_model
 from assessment.models import AssessmentType
@@ -106,3 +107,32 @@ class TeacherAssessmentUpdateView(UpdateView):
     form_class = TeacherAssessmentForm
     success_url = reverse_lazy('tantorial:my_assessment')
     template_name = "create_assessment.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if TeacherAssessment.teacher == self.request.user.teacherprofile:
+                pass
+        else:
+            return redirect('/accounts/login/?next=/my-assessment/')
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return TeacherAssessment.objects.filter(teacher=self.request.user.teacherprofile)
+
+class TeacherAssessmentDeleteView(DeleteView):
+    model = TeacherAssessment
+    success_url = reverse_lazy('tantorial:my_assessment')
+
+    def dispatch(self, request, *args, **kwargs):
+            if request.user.is_authenticated:
+                if TeacherAssessment.teacher == self.request.user.teacherprofile:
+                    pass
+            else:
+                return redirect('/accounts/login/?next=/my-assessment/')
+
+            return super().dispatch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        messages.error(self.request, 'sucessfully removed assessment')
+        return super().delete(request, *args, **kwargs)
