@@ -11,7 +11,7 @@ class UserAdmin(BaseUserAdmin):
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
         (_('user_info'), {'fields': ('profile_pic', 'phone_number',
-            'account_type', 'first_name', 'last_name','code')}),
+            'account_type', 'first_name', 'last_name','code', 'subsystem', 'student_class')}),
     )
     add_fieldsets = (
         (None, {

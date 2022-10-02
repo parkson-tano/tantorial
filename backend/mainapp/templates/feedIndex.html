@@ -2,22 +2,6 @@
 {% block title %}Welcome - {{user.get_full_name}}{% endblock title %}
 
 {% block content %}
-<div class="container">
-    <div>
-      <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'tantorial:ass_type' %}">Creat Assessment</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'tantorial:my_assessment' %}">My Assessments</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Create Lesson</a>
-        </li>
-    </ul>      
-    </div>
-
-</div>
 
 {% endblock  %}
 

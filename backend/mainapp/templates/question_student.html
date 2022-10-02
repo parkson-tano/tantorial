@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% load i18n %}
+ {% block title %}my_question{% endblock %} {% block content %}
+
+<div class="mx-md-5 mx-sm-3">
+  <div class="row px-md-5 px-3 pb-5">
+    <p class="text-2xl mb-3">{{assessment_info.title}} for {{assessment_info.teacher.user.get_full_name}}</p>
+    {% for question in questions %}
+    <div
+      class="col-12 col-md-6 col-sm-6 p-md-5 mt-3 shadow-2xl mt-sm-5 hover:bg-gradient-to-r from-green-200 to-blue-300"
+    >
+      <div class="card-header">
+
+          <p class="fw-bold text-2xl text-black capitalize my-2">
+            # {{question.question_no}}
+          </p>
+        <p class="fw-bold text-2xl text-black capitalize my-2">
+            {{question.question}}
+          </p>
+      </div>
+	  <div class="alert alert-warning" role="alert">
+        A - {{question.answer_a}}
+      </div>
+      <div class="alert alert-warning" role="alert">
+        B - {{question.answer_b}}
+      </div>
+      <div class="alert alert-warning" role="alert">
+        C - {{question.answer_c}}
+      </div>
+      <div class="alert alert-warning" role="alert">
+        D - {{question.answer_d}}
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

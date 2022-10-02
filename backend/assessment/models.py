@@ -1,7 +1,9 @@
+from email.policy import default
 from pydoc import describe
 from django.db import models
 from accounts.models import *
 from subsystem.models import *
+from django.urls import reverse
 from smart_selects.db_fields import ChainedForeignKey
 from autoslug import AutoSlugField
 # Create your models here.
@@ -28,11 +30,14 @@ class TeacherAssessment(models.Model):
         null = True,
         blank = True
         )
+	slug = AutoSlugField(populate_from = 'title')
 	publish = models.BooleanField(default=False)
+	student_count = models.IntegerField(default=0)
 	date_created = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.title
+		return self.title + str(self.id)
+
 
 class Question(models.Model):
 	assessment = models.ForeignKey(TeacherAssessment, on_delete=models.CASCADE)

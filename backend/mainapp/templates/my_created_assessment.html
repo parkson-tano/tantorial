@@ -1,18 +1,20 @@
 {% extends "base.html" %} {% load crispy_forms_tags %} {% load i18n %}
  {% block title %}my_asseement{% endblock %} {% block content %}
-<div class="container mt-5">
-  <div class="mx-5">
-    <div class="row px-5">
+<div class="mx-md-5 mx-sm-3">
+  <div class="row px-md-5 px-3 pb-5">
       <p class="text-2xl mb-3">My Assessment</p>
       {% for assessment in my_assessments %}
 
-      <div
-        class="col col-md-6 col-12 col-sm-6 p-5 shadow-2xl hover:bg-gradient-to-r from-green-300"
-      >
+       <div
+      class="col-12 col-md-6 col-sm-6 p-md-5 mt-3 shadow-2xl mt-sm-5 hover:bg-gradient-to-r from-green-200 to-blue-300"
+    >
         <div class="card-header">
-          <p class="fw-bold text-2xl text-black capitalize my-2">
+          <a href="{% url 'tantorial:my_question' assessment.id %}">
+             <p class="fw-bold text-2xl text-black capitalize my-2">
             {{assessment.assessment_type}}
           </p>
+          </a>
+         
           {% if assessment.publish %}
           <button
             type="button"
@@ -52,6 +54,11 @@
             {{assessment.title}}
           </p>
         </div>
+         <div class="flex">
+          <p class="fw-bold text-black capitalize my-2">
+            Taken by: {{assessment.student_count}} Students
+          </p>
+        </div>
 
         <p class="italic capitalize my-2 hover:text-2xl">
           Class: {{assessment.assessment_class}}
@@ -60,7 +67,7 @@
           Date: {{assessment.date_created}}
         </p>
         <div>
-          <a href="">
+          <a href="{% url 'tantorial:create_question' assessment.id %}">
             <button
               type="button"
               class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
@@ -136,5 +143,4 @@
       {% endfor %}
     </div>
   </div>
-</div>
 {% endblock %}

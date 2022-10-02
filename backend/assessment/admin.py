@@ -5,8 +5,12 @@ from .models import *
 class QuestionInline(admin.TabularInline):
     model = Question
 
-admin.site.register((TeacherAssessment, Question, StudentMark, StudentQuestion))
+admin.site.register((Question, StudentMark, StudentQuestion))
 
 @admin.register(AssessmentType)
 class AssessmentTypeAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug']
+
+@admin.register(TeacherAssessment)
+class TeacherAssessmentAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug']
