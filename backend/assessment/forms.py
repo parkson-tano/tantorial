@@ -15,7 +15,7 @@ class TeacherAssessmentForm(forms.ModelForm):
     
     class Meta:
         model = TeacherAssessment
-        fields = ("title" ,'subsystem', 'assessment_class')
+        fields = ("title" ,'subsystem', 'assessment_class', 'assessment_subject')
 
 
 class QuestionForm(forms.ModelForm):

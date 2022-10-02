@@ -30,6 +30,16 @@ class TeacherAssessment(models.Model):
         null = True,
         blank = True
         )
+	assessment_subject = ChainedForeignKey(
+        Subject,
+        chained_field="subsystem",
+        chained_model_field="subsystem",
+        show_all=False,
+        auto_choose=True,
+        sort=True,
+        null = True,
+        blank = True
+        )
 	slug = AutoSlugField(populate_from = 'title')
 	publish = models.BooleanField(default=False)
 	student_count = models.IntegerField(default=0)
