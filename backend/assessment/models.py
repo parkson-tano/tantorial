@@ -71,7 +71,9 @@ class StudentMark(models.Model):
 	student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
 	test = models.ForeignKey(TeacherAssessment, on_delete=models.CASCADE)
 	marks = models.IntegerField(default=0)
+	timer = models.IntegerField(default=0)
 	completed = models.BooleanField(default=False)
+	percentage = models.FloatField(default=0)
 	passed = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True)
 
@@ -81,6 +83,7 @@ class StudentMark(models.Model):
 class StudentQuestion(models.Model):
 	student = models.ForeignKey(StudentMark, on_delete=models.CASCADE)
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	graded = models.BooleanField(default = False)
 	passed = models.BooleanField(default=False)
 
 	def __str__(self):
