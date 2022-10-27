@@ -4,7 +4,7 @@
 <div class="mx-md-5 mx-sm-3">
   <div class="row px-md-5 px-3 pb-5">
     <p class="text-2xl mb-3">My question</p>
-	<a href="{% url 'tantorial:create_question' pk %}">
+	<a href="{% url 'tantorial_assessment:create_question' pk %}">
             <button
               type="button"
               class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
@@ -73,7 +73,7 @@
           Correct Answer: {{question.correct_answer|capfirst }}
         </button>
       </div>
-      <a href="{% url 'tantorial:update_question' question.id %}">
+      <a href="{% url 'tantorial_assessment:update_question' question.id %}">
         <button
           type="button"
           class="btn rounded-full bg-purple-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
@@ -126,7 +126,7 @@
               <form
                 id="subject-delete"
                 method="POST"
-                action="{% url 'tantorial:delete_question' question.id %}"
+                action="{% url 'tantorial_assessment:delete_question' question.id %}"
               >
                 {% csrf_token %}
                 <button type="submit" class="btn bg-red-400 shadow-lg">

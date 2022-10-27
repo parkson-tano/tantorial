@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chaining/', include('smart_selects.urls')),
     path('', include('mainapp.urls')),
+    path('assessment/', include('assessment.urls')),
     path('accounts/', include('accounts.urls')),
      path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='forgotpassword/password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="forgotpassword/password_reset_confirm.html"), name='password_reset_confirm'),

@@ -9,7 +9,7 @@
       class="col-12 col-md-6 col-sm-6 p-md-5 mt-3 shadow-2xl mt-sm-5 hover:bg-gradient-to-r from-green-200 to-blue-300"
     >
         <div class="card-header">
-          <a href="{% url 'tantorial:my_question' assessment.id %}">
+          <a href="{% url 'tantorial_assessment:my_question' assessment.id %}">
              <p class="fw-bold text-2xl text-black capitalize my-2">
             {{assessment.assessment_type}}
           </p>
@@ -24,7 +24,7 @@
             Already Publish and Ready for Student
           </button>
           <a
-            href="{% url 'tantorial:manage_publish' assessment.id %}?action=unpublish"
+            href="{% url 'tantorial_assessment:manage_publish' assessment.id %}?action=unpublish"
           >
             <button
               type="button"
@@ -72,7 +72,7 @@
           Date: {{assessment.date_created}}
         </p>
         <div>
-          <a href="{% url 'tantorial:create_question' assessment.id %}">
+          <a href="{% url 'tantorial_assessment:create_question' assessment.id %}">
             <button
               type="button"
               class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
@@ -82,7 +82,7 @@
             </button>
           </a>
         </div>
-        <a href="{% url 'tantorial:update_assessment' assessment.id %}">
+        <a href="{% url 'tantorial_assessment:update_assessment' assessment.id %}">
           <button
             type="button"
             class="btn rounded-full bg-purple-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
@@ -135,7 +135,7 @@
                 <form
                   id="subject-delete"
                   method="POST"
-                  action="{% url 'tantorial:delete_assessment' assessment.id %}"
+                  action="{% url 'tantorial_assessment:delete_assessment' assessment.id %}"
                 >
                   {% csrf_token %}
                   <button type="submit" class="btn bg-red-400 shadow-lg">Yes</button>

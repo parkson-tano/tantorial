@@ -1,12 +1,18 @@
-from email.policy import default
-from pydoc import describe
+from autoslug import AutoSlugField
 from django.db import models
-from accounts.models import *
-from subsystem.models import *
 from django.urls import reverse
 from smart_selects.db_fields import ChainedForeignKey
-from autoslug import AutoSlugField
+
+from accounts.models import *
+from subsystem.models import *
+
 # Create your models here.
+
+DIFF_CHOICES = (
+    ('easy', 'easy'),
+    ('medium', 'medium'),
+    ('hard', 'hard'),
+)
 
 class AssessmentType(models.Model):
 	title = models.CharField(max_length=256)
@@ -19,6 +25,14 @@ class TeacherAssessment(models.Model):
 	teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
 	assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
 	title = models.CharField(max_length=256)
+	evaluated_topic = models.CharField(max_length=120)
+	evaluated_lesson = models.CharField(max_length=120)
+	evaluated_competences = models.TextField()
+	number_of_questions = models.IntegerField()
+	time = models.IntegerField(help_text="duration of the quiz in minutes")
+	required_score_to_pass = models.IntegerField(help_text="required score in %")
+
+	difficulty = models.CharField(max_length=6, choices=DIFF_CHOICES)
 	subsystem = models.ForeignKey(Subsystem, on_delete=models.CASCADE)
 	assessment_class = ChainedForeignKey(
         ClassRoom,
@@ -57,7 +71,7 @@ class Question(models.Model):
 	answer_b = models.TextField(blank=True, null=True)
 	answer_c = models.TextField(blank=True, null=True)
 	answer_d = models.TextField(blank=True, null=True)
-	correct_answer = models.CharField(max_length=15, choices = (
+	correct_answer = models.CharField(max_length=2, choices = (
 		('a', 'a'), ('b', 'b'), ('c','c'), ('d', 'd')
 		), blank=True, null=True)
 	explanation = models.TextField(null=True, blank=True)
