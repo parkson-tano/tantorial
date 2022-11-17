@@ -1,151 +1,140 @@
-{% extends "base.html" %} {% load crispy_forms_tags %} {% load i18n %}
- {% block title %}my_asseement{% endblock %} {% block content %}
-<div class="mx-md-5 mx-sm-3">
-  <div class="row px-md-5 px-3 pb-5">
-      <p class="text-2xl mb-3">My Assessment</p>
-      {% for assessment in my_assessments %}
+{% extends 'dashboard/dashboardbase.html' %}
 
-       <div
-      class="col-12 col-md-6 col-sm-6 p-md-5 mt-3 shadow-2xl mt-sm-5 hover:bg-gradient-to-r from-green-200 to-blue-300"
-    >
-        <div class="card-header">
-          <a href="{% url 'tantorial_assessment:my_question' assessment.id %}">
-             <p class="fw-bold text-2xl text-black capitalize my-2">
-            {{assessment.assessment_type}}
-          </p>
-          </a>
-         
-          {% if assessment.publish %}
-          <button
-            type="button"
-            class="btn rounded-full bg-blue-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
-            class="btn bg-red-500"
-          >
-            Already Publish and Ready for Student
-          </button>
-          <a
-            href="{% url 'tantorial_assessment:manage_publish' assessment.id %}?action=unpublish"
-          >
-            <button
-              type="button"
-              class="btn rounded-full bg-red-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
-              class="btn bg-red-500"
-            >
-              Unpublish or Stop?
-            </button>
-          </a>
-          {% else %}
-          <a
-            href="{% url 'tantorial:manage_publish' assessment.id %}?action=publish"
-          >
-            <button
-              type="button"
+{% block title %}
+My Assessment
+{% endblock title %}
+
+
+{% block sidebar %}
+{% include 'sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item active">My assessment</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-12">
+      <div class="row">
+        <p class="text-2xl mb-3">My Assessment</p>
+        {% for assessment in my_assessments %}
+<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+            <a href="{% url 'tantorial_assessment:my_question' assessment.id %}">
+              <p class="fw-bold text-2xl text-black capitalize my-2">
+                {{assessment.assessment_type}}
+              </p>
+            </a>
+
+            {% if assessment.publish %}
+            <button type="button"
               class="btn rounded-full bg-blue-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
-              class="btn bg-red-500"
-            >
-              Publish Now?
+              class="btn bg-red-500">
+              Already Publish and Ready for Student
+            </button>
+            <a href="{% url 'tantorial_assessment:manage_publish' assessment.id %}?action=unpublish">
+              <button type="button"
+                class="btn rounded-full bg-red-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                class="btn bg-red-500">
+                Unpublish or Stop?
+              </button>
+            </a>
+            {% else %}
+            <a href="{% url 'tantorial_assessment:manage_publish' assessment.id %}?action=publish">
+              <button type="button"
+                class="btn rounded-full bg-blue-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                class="btn bg-red-500">
+                Publish Now?
+              </button>
+            </a>
+
+            {% endif %}
+          </div>
+          <div class="flex">
+            <p class="fw-bold text-2xl text-black capitalize my-2">
+              {{assessment.title}}
+            </p>
+          </div>
+          <div class="flex">
+            <p class="fw-bold text-2xl text-black capitalize my-2">
+              Subject: {{assessment.assessment_subject}}
+            </p>
+          </div>
+          <div class="flex">
+            <p class="fw-bold text-black capitalize my-2">
+              Taken by: {{assessment.student_count}} Students
+            </p>
+          </div>
+
+          <p class="italic capitalize my-2 hover:text-2xl">
+            Class: {{assessment.assessment_class}}
+          </p>
+          <p class="italic capitalize my-2 hover:text-2xl">
+            Date: {{assessment.date_created}}
+          </p>
+          <div>
+            <a href="{% url 'tantorial_assessment:create_question' assessment.id %}">
+              <button type="button"
+                class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+                class="btn bg-red-500">
+                Add Questions
+              </button>
+            </a>
+          </div>
+          <a href="{% url 'tantorial_assessment:update_assessment' assessment.id %}">
+            <button type="button"
+              class="btn rounded-full bg-purple-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
+              class="btn bg-red-500">
+              Update
             </button>
           </a>
 
-          {% endif %}
-        </div>
-        <div class="flex">
-          <p class="fw-bold text-2xl text-black capitalize my-2">
-            {{assessment.title}}
-          </p>
-        </div>
-        <div class="flex">
-          <p class="fw-bold text-2xl text-black capitalize my-2">
-            Subject: {{assessment.assessment_subject}}
-          </p>
-        </div>
-         <div class="flex">
-          <p class="fw-bold text-black capitalize my-2">
-            Taken by: {{assessment.student_count}} Students
-          </p>
-        </div>
-
-        <p class="italic capitalize my-2 hover:text-2xl">
-          Class: {{assessment.assessment_class}}
-        </p>
-        <p class="italic capitalize my-2 hover:text-2xl">
-          Date: {{assessment.date_created}}
-        </p>
-        <div>
-          <a href="{% url 'tantorial_assessment:create_question' assessment.id %}">
-            <button
-              type="button"
-              class="btn rounded-full bg-green-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
-              class="btn bg-red-500"
-            >
-              Add Questions
-            </button>
-          </a>
-        </div>
-        <a href="{% url 'tantorial_assessment:update_assessment' assessment.id %}">
-          <button
-            type="button"
-            class="btn rounded-full bg-purple-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
-            class="btn bg-red-500"
-          >
-            Update
-          </button>
-        </a>
-
-          <button
-            type="button"
+          <button type="button"
             class="btn rounded-full bg-red-400 shadow-lg shadow-red-500 hover:shadow-orange-200 font-bold font-serif my-2"
-            class="btn bg-red-500"
-            data-bs-toggle="modal"
-          data-bs-target="#exampleModalDefault"
-          >
+            class="btn bg-red-500" data-bs-toggle="modal" data-bs-target="#exampleModalDefault">
             Delete Assessment
           </button>
-        <div
-          class="modal fade mt-5"
-          id="exampleModalDefault"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title text-center" id="exampleModalLabel">
-                  Delete Subject
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body text-center">
-                Are You sure you want to remove this Assessment?
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn bg-green-400 shadow-lg"
-                  data-bs-dismiss="modal"
-                >
-                  No
-                </button>
-                <form
-                  id="subject-delete"
-                  method="POST"
-                  action="{% url 'tantorial_assessment:delete_assessment' assessment.id %}"
-                >
-                  {% csrf_token %}
-                  <button type="submit" class="btn bg-red-400 shadow-lg">Yes</button>
-                </form>
+          <div class="modal fade mt-5" id="exampleModalDefault" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-center" id="exampleModalLabel">
+                    Delete Subject
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                  Are You sure you want to remove this Assessment?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn bg-green-400 shadow-lg" data-bs-dismiss="modal">
+                    No
+                  </button>
+                  <form id="subject-delete" method="POST"
+                    action="{% url 'tantorial_assessment:delete_assessment' assessment.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn bg-red-400 shadow-lg">Yes</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   </div>
+</section>
 {% endblock %}

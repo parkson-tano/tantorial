@@ -1,8 +1,11 @@
-{% extends "base.html" %}
+{% extends 'dashboard/dashboardbase.html' %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% comment %} {% load account socialaccount %} {% endcomment %}
 {% block title %}create_asseement{% endblock %}
+{% block sidebar %}
+{% include 'sidebar.html' %}
+{% endblock sidebar %}
 
 {% block content %}
 <div class="container">

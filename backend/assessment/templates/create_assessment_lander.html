@@ -1,9 +1,13 @@
-{% extends 'base.html' %}
-
-{% block title %}Tantorial- Personalise{% endblock title %}
-
+{% extends 'dashboard/dashboardbase.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% comment %} {% load account socialaccount %} {% endcomment %}
+{% block title %}create_asseement{% endblock %}
+{% block sidebar %}
+{% include 'sidebar.html' %}
+{% endblock sidebar %}
 {% block content %}
-<div class="container mt-5">
+<div class="container">
     <div class="mx-5">
         <div class="row px-5">
             <p class="text-2xl mb-3">Create an assessment</p>

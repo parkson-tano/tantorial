@@ -1,0 +1,567 @@
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+	<ul class="sidebar-nav" id="sidebar-nav">
+	
+
+
+		{% if request.user.account_type == 'student' %}
+		<!-- Start Dashboard Nav -->
+		<li class="nav-item">
+			<a class="nav-link " href="#">
+				<i class="bi bi-grid"></i>
+				<span>Dashboard</span>
+			</a>
+		</li><!-- End Dashboard Nav -->
+		<!-- Start My Class Nav -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" data-bs-target="#myclass-nav" data-bs-toggle="collapse" href="#">
+				<i class="bi bi-menu-button-wide"></i><span>My Class</span><i class="bi bi-chevron-down ms-auto"></i>
+			</a>
+			<ul id="myclass-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Join Class</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>See class</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Subjects</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Teachers</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<!-- End My Class Nav -->
+		<!-- Start Assessment Nav -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" data-bs-target="#assessment-nav" data-bs-toggle="collapse" href="#">
+				<i class="bi bi-menu-button-wide"></i><span>Assessment</span><i class="bi bi-chevron-down ms-auto"></i>
+			</a>
+			<ul id="assessment-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>All</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Taken</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Due</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Completed</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Upcoming</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<!-- End Assessment Nav -->
+		<!-- Start Assignment Nav -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" data-bs-target="#assignment-nav" data-bs-toggle="collapse" href="#">
+				<i class="bi bi-menu-button-wide"></i><span>Assignment</span><i class="bi bi-chevron-down ms-auto"></i>
+			</a>
+			<ul id="assignment-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>All</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Taken</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Due</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Completed</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Upcoming</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<!-- End Assignment Nav -->
+		<!-- Start Lesson Nav -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" data-bs-target="#lesson-nav" data-bs-toggle="collapse" href="#">
+				<i class="bi bi-menu-button-wide"></i><span>Lesson</span><i class="bi bi-chevron-down ms-auto"></i>
+			</a>
+			<ul id="lesson-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>All</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Taken</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Due</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Completed</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Upcoming</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<!-- End Lesson Nav -->
+		<!-- Start Result Nav -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" data-bs-target="#result-nav" data-bs-toggle="collapse" href="#">
+				<i class="bi bi-menu-button-wide"></i><span>Results</span><i class="bi bi-chevron-down ms-auto"></i>
+			</a>
+			<ul id="result-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Summary</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Assignment</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-circle"></i><span>Assessment</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<!-- End Result Nav -->
+		{% elif request.user.account_type == 'teacher' %}
+			<!-- Start Dashboard Nav -->
+			<li class="nav-item">
+				<a class="nav-link " href="#">
+					<i class="bi bi-grid"></i>
+					<span>Dashboard</span>
+				</a>
+			</li><!-- End Dashboard Nav -->
+				<!-- Start My Class Nav -->
+				<li class="nav-item">
+					<a class="nav-link" data-bs-target="#myclass-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>My Class</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="myclass-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Join Class</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link collapsed" data-bs-target="#cla-nav" data-bs-toggle="collapse" href="#">
+								<i class="bi bi-circle"></i><span>Class</span>
+							</a>
+							<ul id="cla-nav" class="nav-content collapse ">
+								<li>
+									<a href="#">
+										<i class="bi bi-circle"></i><span>Form 1</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="bi bi-circle"></i><span>Form 2</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a class="nav-link collapsed" data-bs-target="#clasub-nav" data-bs-toggle="collapse" href="#">
+								<i class="bi bi-circle"></i><span>Subject</span>
+							</a>
+							<ul id="clasub-nav" class="nav-content collapse ">
+								<li>
+									<a href="#">
+										<i class="bi bi-tick"></i><span>Computer Science</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="bi bi-circle"></i><span>Math</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Students</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End My Class Nav -->
+				<!-- Start Assessment Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#assessment-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Assessment</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="assessment-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Create New Assessment</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Published</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Draft</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Completed</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>All</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Assessment Nav -->
+				<!-- Start Assignment Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#assignment-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Assignment</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="assignment-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Create New Assignment</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Published</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Draft</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Completed</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>All</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Assignment Nav -->
+				<!-- Start Lesson Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#lesson-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Lesson</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="lesson-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Create New Lesson</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Published</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Draft</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>All</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Lesson Nav -->
+				<!-- Start Result Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#result-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Results</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="result-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Assignment</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Assessment</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Result Nav -->
+			{% elif request.user.account_type == 'parent' %}
+				<!-- Start Dashboard Nav -->
+				<li class="nav-item">
+					<a class="nav-link " href="#">
+						<i class="bi bi-grid"></i>
+						<span>Dashboard</span>
+					</a>
+				</li><!-- End Dashboard Nav -->
+				<!-- Start My Class Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#myclass-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>My Class</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="myclass-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Join Class</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>See class</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Subjects</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Teachers</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End My Class Nav -->
+				<!-- Start Assessment Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#assessment-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Assessment</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="assessment-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>All</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Taken</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Due</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Completed</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Upcoming</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Assessment Nav -->
+				<!-- Start Assignment Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#assignment-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Assignment</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="assignment-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>All</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Taken</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Due</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Completed</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Upcoming</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Assignment Nav -->
+				<!-- Start Lesson Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#lesson-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Lesson</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="lesson-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>All</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Taken</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Due</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Completed</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Upcoming</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Lesson Nav -->
+				<!-- Start Result Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#result-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Results</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="result-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Summary</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Assignment</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Assessment</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Result Nav -->
+				{% else %}
+				<!-- Start Dashboard Nav -->
+				<li class="nav-item">
+					<a class="nav-link " href="#">
+						<i class="bi bi-grid"></i>
+						<span>Dashboard</span>
+					</a>
+				</li><!-- End Dashboard Nav -->
+				<!-- Start Teacehr Nav -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" data-bs-target="#result-nav" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-menu-button-wide"></i><span>Class</span><i class="bi bi-chevron-down ms-auto"></i>
+					</a>
+					<ul id="result-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span>Create New Class</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link collapsed" data-bs-target="#class-nav-nav" data-bs-toggle="collapse" href="#">
+								<i class="bi bi-circle"></i><span>Class</span>
+							</a>
+							<ul id="class-nav-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+								<li>
+									<a href="#">
+										<i class="bi bi-circle"></i><span>Create New Class</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bi bi-circle"></i><span></span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- End Teacehr Nav -->
+
+
+		{% endif %}
+
+		
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="users-profile.html">
+				<i class="bi bi-person"></i>
+				<span>Profile</span>
+			</a>
+		</li><!-- End Profile Page Nav -->
+
+
+
+	</ul>
+
+</aside><!-- End Sidebar-->

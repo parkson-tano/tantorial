@@ -68,3 +68,48 @@ class StudentIndexView(TemplateView):
         my_assessments = TeacherAssessment.objects.filter(Q(assessment_class = student_class) & Q(publish = True))
         context["my_assessments"] = my_assessments
         return context
+
+class TeacherDashboard(TemplateView):
+    template_name = 'dashboard/teacher.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.account_type == 'teacher':
+                pass
+        else:
+            return redirect('/accounts/login/?next=/dashboard/teacher')
+
+        return super().dispatch(request, *args, **kwargs)
+class StudentDashboard(TemplateView):
+    template_name = 'dashboard/student.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.account_type == 'student':
+                pass
+        else:
+            return redirect('/accounts/login/?next=/dashboard/student')
+
+        return super().dispatch(request, *args, **kwargs)
+class ParentDashboard(TemplateView):
+    template_name = 'dashboard/parent.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.account_type == 'parent':
+                pass
+        else:
+            return redirect('/accounts/login/?next=/dashboard/parent')
+
+        return super().dispatch(request, *args, **kwargs)
+class SchoolDashboard(TemplateView):
+    template_name = 'dashboard/school.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.account_type == 'school':
+                pass
+        else:
+            return redirect('/accounts/login/?next=/dashboard/school')
+
+        return super().dispatch(request, *args, **kwargs)

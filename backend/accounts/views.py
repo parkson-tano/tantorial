@@ -73,26 +73,27 @@ class SchoolRegister(RegisterBaseView):
     account_type = "school"
     code = f'SCH/{uuid.uuid4().hex[:6].upper()}/TAN'
 
+
 class LoginView(FormView):
 	template_name = 'login.html'
-	form_class =  LoginForm
+	form_class = LoginForm
 	success_url = reverse_lazy('tantorial:index_feed')
 
 	def form_valid(self, form):
 		email = form.cleaned_data.get('email')
 		pword = form.cleaned_data.get('password')
-		usr = authenticate(email = email, password=pword)
+		usr = authenticate(email=email, password=pword)
 		if usr is not None:
 			login(self.request, usr)
 		else:
-			return render(self.request, self.template_name, {'form': self.form_class, 'error':'invalid creditials'})	
+			return render(self.request, self.template_name, {'form': self.form_class, 'error': 'invalid creditials'})
 		return super().form_valid(form)
 
 	def get_success_url(self):
 		if 'next' in self.request.GET:
 			next_url = self.request.GET.get('next')
 			print(next_url)
-			return next_url 	
+			return next_url
 		else:
 			return self.success_url
 @login_required

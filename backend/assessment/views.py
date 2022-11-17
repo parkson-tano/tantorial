@@ -32,7 +32,7 @@ class CreateAssessmentLanderView(TemplateView):
 class CreateAssessmentView(CreateView):
     template_name = 'create_assessment.html'
     model = TeacherAssessment
-    success_url = reverse_lazy('tantorial:my_assessment')
+    success_url = reverse_lazy('tantorial_assessment:my_assessment')
     form_class = TeacherAssessmentForm
 
     def form_valid(self, form, **kwargs):
@@ -68,13 +68,13 @@ class ManageAssessmentView(View):
         elif action == 'unpublish':
             assessment.publish = False
             assessment.save()
-        return redirect('tantorial:my_assessment')
+        return redirect('tantorial_assessment:my_assessment')
 
 
 class TeacherAssessmentUpdateView(UpdateView):
     model = TeacherAssessment
     form_class = TeacherAssessmentForm
-    success_url = reverse_lazy('tantorial:my_assessment')
+    success_url = reverse_lazy('tantorial_assessment:my_assessment')
     template_name = "create_assessment.html"
 
     def dispatch(self, request, *args, **kwargs):
@@ -115,7 +115,7 @@ class TeacherAssessmentDeleteView(DeleteView):
 class CreateQuestionView(CreateView):
     template_name = 'create_question.html'
     model = Question
-    success_url = reverse_lazy('tantorial:my_assessment')
+    success_url = reverse_lazy('tantorial_assessment:my_assessment')
     form_class = QuestionForm
 
     def dispatch(self, request, *args, **kwargs):
@@ -156,7 +156,7 @@ class QuestionUpdateView(UpdateView):
             if Question.objects.filter(Q(assessment__teacher=self.request.user.teacherprofile.id) & Q(assessment__teacher = self.request.user.teacherprofile)):
                 pass
             else:
-                return redirect('tantorial:my_assessment')
+                return redirect('tantorial_assessment:my_assessment')
         else:
             return redirect('/accounts/login/?next=/my-assessment/')
 
