@@ -1,19 +1,22 @@
 from django.urls import path, include
-
 from .views import *
-
-app_name = 'tantorial_auth'
-
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 urlpatterns = [
-    path('api/', include("accounts.api.urls")),
-    path('register/', RegisterLanderView.as_view(), name='register-option'),
-    path('register/student/', StudentRegister.as_view(), name='student-register'),
-    path('register/parent/', ParentRegister.as_view(), name='parent-register'),
-    path('register/school/', SchoolRegister.as_view(), name='school-register'),
-    path('register/teacher/', TeacherRegister.as_view(), name='teacher-register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('password_change/', passwordchange, name='password_change'),
-    path('password_reset/', password_reset_request, name="password_reset"),
-
+    path("user", UserViewAPI.as_view({
+        'get': 'list',
+    }), name="user_list"),
+    path("user/<int:pk>", UserViewAPI.as_view({'get': 'retrieve', 'put': 'update',
+                                               'patch': 'partial_update',
+                                               'delete': 'destroy'}), name='user_api'),
+    path('login', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('logout', LogoutAndBlacklistRefreshToken.as_view(), name='blacklist_token'),
+    path('change_password/<int:number>', ChangePasswordView.as_view(),
+         name='auth_change_password'),
+    path('register',
+         RegisterView.as_view({'post': 'create'}), name='auth_register'),
 ]

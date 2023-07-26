@@ -2,7 +2,9 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-class QuestionInline(admin.TabularInline):
-    model = Question
-
-admin.site.register((AssessmentType, TeacherAssessment, Question, StudentMark, StudentQuestion))
+admin.site.register(AssessmentQuestion)
+admin.site.register(AssessmentTarget)
+admin.site.register(StudentMark)
+admin.site.register(StudentAnswer)
+admin.site.register(TeacherAssessment)
+admin.site.register(AssessmentType)

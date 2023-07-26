@@ -11,19 +11,18 @@ class UserAdmin(BaseUserAdmin):
                                         'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
         (_('user_info'), {'fields': ('profile_pic', 'phone_number',
-            'account_type', 'first_name', 'last_name','code')}),
+            'account_type', 'first_name', 'last_name','admin', 'active', 'suspended', 'verified', 'date_updated', 'date_created')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide', ),
-            'fields': ('email', 'password1', 'password2', 'account_type'),
+            'fields': ('email', 'password1', 'password2', 'account_type', 'admin', 'active', 'suspended', 'verified'),
         }),
     )
-    search_fields = ('email', 'first_name', 'last_name', 'student_class', 
-        'account_type')
+    search_fields = ('email', 'first_name', 'last_name',
+                     'admin', 'active', 'suspended', 'verified', 'date_updated', 'date_created'
+                     )
     list_display = ('email', 'first_name', 'last_name', 'is_superuser', 
-        'account_type', 'code')
-    ordering = ('email','account_type' )
+        'account_type', 'admin', 'active', 'suspended', 'verified', 'date_updated', 'date_created')
+    ordering = ('email','account_type', 'admin', 'active', 'suspended', 'verified', 'date_updated', 'date_created')
 admin.site.register(User, UserAdmin)
-
-admin.site.register((StudentProfile, TeacherProfile, SchoolProfile, ParentProfile))
