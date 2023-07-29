@@ -25,6 +25,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['account_type'] = user.account_type
         token['suspended'] = user.suspended
         token['verified'] = user.verified
+        token['first_name'] = user.first_name
+        token['last_name'] = user.last_name
         
         return token
 
@@ -38,7 +40,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'password', 'email', 'phone_number',
-                  'username', 'role', 'admin', 'active', 'suspended', 'verified')
+                  'username', 'role', 'admin', 'active', 'suspended', 'verified', 
+                  'account_type', 'first_name', 'last_name'
+                  )
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -60,7 +64,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('password', 'email', 'phone_number', 'account_type',
-                  'role', 'admin', 'active', 'suspended', 'verified')
+                  'role', 'admin', 'active', 'suspended', 'verified',
+                  'first_name', 'last_name')
                   
         extra_kwargs = {
             'last_name': {'required': False}
@@ -77,6 +82,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             suspended=validated_data['suspended'],
             verified=validated_data['verified'],
             account_type=validated_data['account_type'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
         )
 
         user.set_password(validated_data['password'])

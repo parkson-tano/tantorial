@@ -9,15 +9,18 @@ import {
 import { Provider } from 'react-redux';
 import { Notifications } from '@mantine/notifications';
 import MainRoute from './routes/mainroute/MainRoute';
+import { AuthProvider } from './context/auth-context';
 
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Routes>
         <Route path="/*" element={<MainRoute />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 

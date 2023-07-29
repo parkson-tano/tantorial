@@ -17,6 +17,8 @@ import string
 class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
+    first_name = models.CharField(max_length=56, null=True, blank=True)
+    last_name = models.CharField(max_length=56, null=True, blank=True)
     username = models.CharField(max_length=35, null=True, unique=True)
     account_type = models.CharField(
         max_length=32, null=True, blank=True, choices=(('student', 'Student'), ('teacher', 'Teacher'), ('parent', 'Parent'), ('school', 'School')))
