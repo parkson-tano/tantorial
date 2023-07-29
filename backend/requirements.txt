@@ -18,6 +18,7 @@ django-smart-selects==1.6.0
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.2.0
 drf-yasg==1.21.7
+gunicorn==21.2.0
 idna==3.4
 inflection==0.5.1
 itypes==1.2.0
