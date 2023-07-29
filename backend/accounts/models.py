@@ -5,7 +5,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
 from subsystem.models import Subsystem, Subject, ClassRoom
-from smart_selects.db_fields import ChainedForeignKey, ChainedManyToManyField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from profiles.models import TeacherProfile, StudentProfile, GuardianProfile, SchoolProfile
