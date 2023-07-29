@@ -1,12 +1,23 @@
-import Navbar from './components/common/Navbar'
-import Header from './components/common/Header'
+import React, { useEffect, useState } from 'react';
+import { MantineProvider } from '@mantine/core';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { Provider } from 'react-redux';
+import { Notifications } from '@mantine/notifications';
+import MainRoute from './routes/mainroute/MainRoute';
+
+
 function App() {
-  document.title = 'Tantorial'
   return (
-    <div className="App">
-    <Navbar />
-    <Header />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/*" element={<MainRoute />} />
+      </Routes>
+    </Router>
   );
 }
 

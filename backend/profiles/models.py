@@ -78,6 +78,21 @@ class ClassTeacher(models.Model):
         return self.teacher.first_name + ' ' + self.teacher.last_name
 
 
+class GuardianProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=56, null=True, blank=True)
+    last_name = models.CharField(max_length=56, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    address = models.CharField(max_length=256, null=True, blank=True)
+    profile_picture = models.ImageField(
+        upload_to='guardianprofile/', default="images/defaults/defaultguardianprofile.svg")
+    date_updated = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
+
 class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school = models.ForeignKey(
@@ -102,25 +117,11 @@ class StudentProfile(models.Model):
         return self.user.get_full_name()
 
 
-class GuardianProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=56, null=True, blank=True)
-    last_name = models.CharField(max_length=56, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
-    address = models.CharField(max_length=256, null=True, blank=True)
-    profile_picture = models.ImageField(
-        upload_to='guardianprofile/', default="images/defaults/defaultguardianprofile.svg")
-    date_updated = models.DateTimeField(auto_now=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
-
-
 class StudentGuardian(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     guardian = models.ForeignKey(
         GuardianProfile, on_delete=models.CASCADE, null=True, blank=True)
+    relationship = models.CharField(max_length=56, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
