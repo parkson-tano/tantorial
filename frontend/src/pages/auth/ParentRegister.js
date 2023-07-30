@@ -10,38 +10,54 @@ import {
   Container,
   Group,
   Button,
+  Box,
   Select,
 } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { IconChevronDown } from "@tabler/icons-react";
 import SignupHead from "../../components/SignupHead";
 import axios from "axios";
-import {useAuth} from '../../context/auth-context'
+import { useAuth } from '../../context/auth-context'
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
 
 export default function ParentRegister() {
-  const {register} = useAuth()
+  const { register } = useAuth()
   const [searchValue, onSearchChange] = useState("");
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassowrd] = useState("");
 
-  const passwordMatch = password === confirmPassword;
+  const form = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validate: {
+      firstName: hasLength({ min: 3 }, 'First name must be at least 3 characters long'),
+      lastName: hasLength({ min: 3 }, 'Last name must be at least 3 characters long'),
+      phoneNumber: hasLength({ min: 9, max: 9 }, 'Phone number must be 9 Digits long'),
+      email: isEmail('Please enter a valid email'),
+      password: hasLength({ min: 6 }, 'Password must be at least 6 characters long'),
+      confirmPassword: matchesField('password', 'Passwords are not the same'),
+
+    }
+  });
 
 
   const handleRegister = async () => {
     const data = {
-      phone_number: phoneNumber,
-      email: email,
-      account_type: "parent",
-      password: password,
-      role : "parent",
-      active: true,
+      first_name: form.values.firstName,
+      last_name: form.values.lastName,
+      phone_number: form.values.phoneNumber,
+      email: form.values.email,
+      password: form.values.password,
       verified: false,
-      suspended: false,
+      account_type: "parent",
+      role: "parent"
+
+
     };
     await register(data);
   };
@@ -54,66 +70,63 @@ export default function ParentRegister() {
       }}
     >
       <Container size={520} my={40}>
-        <SignupHead title="Parent" />
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-          <TextInput label="First Name"
-            my="md"
-            value={firstName}
-            onChange={(event) => setFirstName(event.currentTarget.value)}
-            required />
-          <TextInput label="Last Name"
-            my="md"
-            value={lastName}
-            onChange={(event) => setLastName(event.currentTarget.value)}
-            required />
-          <TextInput
-            type="number"
-            label="Phone Number"
-            my="md"
-            value={phoneNumber}
-            onChange={(event) => setPhoneNumber(event.currentTarget.value)}
-            icon={<Text color="gray" ml="xr"> +237</Text>}
-            required
-          />
-          <TextInput
-            label="Email"
-            placeholder="you@mantine.dev"
-            my="md"
-            value={email}
-            onChange={(event) => setEmail(event.currentTarget.value)}
-            icon={<IconAt size="0.8rem" />}
-            required />
-          <PasswordInput
-            label="Password"
-            my="md"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.currentTarget.value)}
+        <Box component="form" maw={400} mx="auto" onSubmit={form.onSubmit(handleRegister)}>
+          <SignupHead title="Parent" />
+          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+            <TextInput label="First Name"
+              my="md"
+              {...form.getInputProps('firstName')}
+            />
 
-          />
-          <PasswordInput
-            label="Confirm Password"
-            my="md"
-            required
-            mt="md"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassowrd(event.currentTarget.value)}
-          />
-          {
-            (!passwordMatch && confirmPassword )&& (
-              <Text color="red" mt="md">Passwords do not match</Text>
-            )
-          }
-          <Button
-            fullWidth
-            mt="xl"
-            style={{
-              backgroundColor: "#FFC107",
-            }}
-          >
-            Sign in
-          </Button>
-        </Paper>
+            <TextInput label="Last Name"
+              my="md"
+              {...form.getInputProps('lastName')}
+            />
+
+            <TextInput
+              type="number"
+              label="Phone Number"
+              my="md"
+              {...form.getInputProps('phoneNumber')}
+              icon={<Text color="gray" ml="xr"> +237</Text>}
+
+            />
+
+            <TextInput
+              label="Email"
+              placeholder="you@mantine.dev"
+              my="md"
+              icon={<IconAt size="0.8rem" />}
+              {...form.getInputProps('email')}
+            />
+
+            <PasswordInput
+              label="Password"
+              my="md"
+              {...form.getInputProps('password')}
+
+            />
+
+            <PasswordInput
+              label="Confirm Password"
+              my="md"
+
+              mt="md"
+              {...form.getInputProps('confirmPassword')}
+            />
+
+            <Button
+              fullWidth
+              mt="xl"
+              style={{
+                backgroundColor: "#FFC107",
+              }}
+              type="submit"
+            >
+              Sign in
+            </Button>
+          </Paper>
+        </Box>
       </Container>
     </div>
   );
