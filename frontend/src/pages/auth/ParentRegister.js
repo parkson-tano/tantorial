@@ -56,8 +56,6 @@ export default function ParentRegister() {
       verified: false,
       account_type: "parent",
       role: "parent"
-
-
     };
     await register(data);
   };
