@@ -31,7 +31,8 @@ export const registerUser = async (userData) => {
 
 export const updateUserProfile = async (user, profileData) => {
     try {
-        const res = await axios.post(`${API_URL}profiles`, { user, ...profileData });
+        const res = await axios.patch(`${API_URL}profile/${user.account_type}profileupdate/?user_id=${user.id}`,
+            profileData);
         return res.data;
     } catch (err) {
         console.log(err);

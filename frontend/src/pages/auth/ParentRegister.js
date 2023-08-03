@@ -19,7 +19,7 @@ import SignupHead from "../../components/SignupHead";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../../context/auth-context'
-import { registerUser } from "../../actions/auth";
+import { registerUser, updateUserProfile } from "../../actions/auth";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
 
 export default function ParentRegister() {
@@ -63,9 +63,16 @@ export default function ParentRegister() {
     };
 
     try {
-      const user = await registerUser(data); // Assuming registerUser returns the user ID
-      console.log('Registration successful:', user);
-      navigate('/login');
+      const user = await registerUser(data);
+      const profileData = {
+        first_name: form.values.firstName,
+        last_name: form.values.lastName,
+        phone_number: form.values.phoneNumber,
+      }
+      const userProfile = await updateUserProfile(user, profileData);
+      console.log('User profile created:', userProfile);
+      alert('Registration successful');
+
     } catch (error) {
       console.error('Registration error:', error.message);
     }
