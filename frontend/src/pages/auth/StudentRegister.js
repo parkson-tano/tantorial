@@ -11,13 +11,58 @@ import {
   Group,
   Button,
   Select,
+  Box
 } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import SignupHead from "../../components/SignupHead";
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
+import { API_URL } from "../../constant";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../actions/auth";
 
 export default function StudentRegister() {
-  const [searchValue, onSearchChange] = useState("");
-  const [classValue, onClassChange] = useState("");
+  const navigate = useNavigate();
+
+  const form = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      subsystem: '',
+      school: '',
+      class: '',
+      password: '',
+      confirmPassword: '',
+
+    },
+    validate: {
+      firstName: hasLength({ min: 3 }, 'First name must be at least 3 characters long'),
+      lastName: hasLength({ min: 3 }, 'Last name must be at least 3 characters long'),
+      subsystem: isNotEmpty('Please select a subsystem'),
+      school: isNotEmpty('Please select a school'),
+      class: isNotEmpty('Please select a class'),
+      password: hasLength({ min: 6 }, 'Password must be at least 6 characters long'),
+      confirmPassword: matchesField('password', 'Passwords are not the same'),
+    }
+  });
+
+  const handleRegister = async () => {
+    const data = {
+      first_name: form.values.firstName,
+      last_name: form.values.lastName,
+      password: form.values.password,
+      verified: false,
+      account_type: "student",
+      suspended: false,
+      active: true,
+      admin: false,
+      role: "student",
+    };
+    const decoded = await registerUser(data);
+    console.log(decoded);
+    navigate('/login')
+  };
+
   return (
     <div
       style={{
@@ -25,71 +70,65 @@ export default function StudentRegister() {
       }}
     >
       <Container size={520} my={40}>
-        <SignupHead title="Student" />
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-          <TextInput label="First Name" required />
-          <TextInput label="Last Name" required />
-          <Select
-            mt="md"
-            label="Subsystem"
-            data={['English', 'French', 'Bilingual']}
-            rightSection={<IconChevronDown size="1rem" />}
-            placeholder="Select Subsystem"
-          />
-          <Select
-            mt="md"
-            label="Your School"
-            searchable
-            onSearchChange={onSearchChange}
-            searchValue={searchValue}
-            rightSection={<IconChevronDown size="1rem" />}
-            nothingFound="Your School is not listed"
-            data={["React", "Angular", "Svelte", "Vue"]}
-          />
-          <Select
-            mt="md"
-            label="Your Class"
-            searchable
-            onSearchChange={onClassChange}
-            searchValue={classValue}
-            rightSection={<IconChevronDown size="1rem" />}
-            nothingFound="Your Class is not listed"
-            data={["React", "Angular", "Svelte", "Vue"]}
-          />
+        <Box component="form" maw={400} mx="auto" onSubmit={form.onSubmit(handleRegister)}>
+          <SignupHead title="Student" />
 
-          {/* <TextInput
-          type="number"
-          label="Phone Number"
-            icon={<Text color="gray" ml="xr"> +237</Text>}
-          required
-        />
-        <TextInput
-          label="Email"
-          placeholder="you@mantine.dev"
+          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+            <TextInput label="First Name"
+              {...form.getInputProps('firstName')}
+            />
+            <TextInput label="Last Name"
+              {...form.getInputProps('lastName')}
+            />
+            <Select
+              mt="md"
+              label="Subsystem"
+              data={['English', 'French', 'Bilingual']}
+              rightSection={<IconChevronDown size="1rem" />}
+              {...form.getInputProps('subsystem')}
+              placeholder="Select Subsystem"
+            />
+            <Select
+              mt="md"
+              label="Your School"
+              searchable
 
-          required /> */}
-          <PasswordInput
-            label="Password"
-
-            required
-            mt="md"
-          />
-          <PasswordInput
-            label="Confirm Password"
-
-            required
-            mt="md"
-          />
-          <Button
-            fullWidth
-            mt="xl"
-            style={{
-              backgroundColor: "#FFC107",
-            }}
-          >
-            Sign in
-          </Button>
-        </Paper>
+              rightSection={<IconChevronDown size="1rem" />}
+              nothingFound="Your School is not listed"
+              data={["React", "Angular", "Svelte", "Vue"]}
+              {...form.getInputProps('school')}
+            />
+            <Select
+              mt="md"
+              label="Your Class"
+              searchable
+              rightSection={<IconChevronDown size="1rem" />}
+              nothingFound="Your Class is not listed"
+              data={["React", "Angular", "Svelte", "Vue"]}
+              {...form.getInputProps('class')}
+            />
+            <PasswordInput
+              label="Password"
+              {...form.getInputProps('password')}
+              mt="md"
+            />
+            <PasswordInput
+              label="Confirm Password"
+              {...form.getInputProps('confirmPassword')}
+              mt="md"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              mt="xl"
+              style={{
+                backgroundColor: "#FFC107",
+              }}
+            >
+              Sign in
+            </Button>
+          </Paper>
+        </Box>
       </Container>
     </div>
   );

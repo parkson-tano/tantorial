@@ -1,7 +1,7 @@
 import axios from 'axios'
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import {API_URL} from '../constant';
+import { API_URL } from '../constant';
 
 export const loginUser = async (userData) => {
     try {
@@ -19,10 +19,20 @@ export const loginUser = async (userData) => {
 
 export const registerUser = async (userData) => {
     try {
-        const res = await axios.post(`${API_URL}auth/register`, userData);
+        await axios.post(`${API_URL}auth/register`, userData)
+        .then((res) => {
+            console.log(res);
+            return res;
+        })
+        .catch((err) => {
+            console.log(err);
+            throw new Error(err.response ? err.response.data.detail : err.message);
+        })
+        
     } catch (err) {
         console.log(err);
-        throw new Error(err.response ? err.response.data.email : err.message); // throw an error with the message received from the server
+        throw new Error(err.response ? err.response.data.email : err.message);
+
     }
 }
 

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { loginUser, registerUser, logoutUser, getCurrentUser } from '../actions/auth';
 import axios from 'axios';
-import {API_URL} from '../constant'
+import { API_URL } from '../constant'
 
 const AuthContext = createContext();
 
@@ -40,9 +40,6 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
     };
 
-    const register = async (userData) => {
-        await registerUser(userData);
-    };
 
     const logout = () => {
         logoutUser();
@@ -60,7 +57,6 @@ export const AuthProvider = ({ children }) => {
         user,
         isAuthenticated,
         login,
-        register,
         logout,
         checkAuth,
         userProfile,

@@ -16,12 +16,14 @@ import {
 import { IconAt } from "@tabler/icons-react";
 import { IconChevronDown } from "@tabler/icons-react";
 import SignupHead from "../../components/SignupHead";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../../context/auth-context'
+import { registerUser } from "../../actions/auth";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
 
 export default function ParentRegister() {
-  const { register } = useAuth()
+  const navigate = useNavigate();
   const [searchValue, onSearchChange] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +47,6 @@ export default function ParentRegister() {
     }
   });
 
-
   const handleRegister = async () => {
     const data = {
       first_name: form.values.firstName,
@@ -55,11 +56,20 @@ export default function ParentRegister() {
       password: form.values.password,
       verified: false,
       account_type: "parent",
+      suspended: false,
+      active: true,
+      admin: false,
       role: "parent"
     };
-    await register(data);
-  };
 
+    try {
+      const userId = await registerUser(data); // Assuming registerUser returns the user ID
+      console.log('User ID:', userId); // Log the user ID
+      navigate('/login');
+    } catch (error) {
+      console.error('Registration error:', error.message);
+    }
+  };
 
   return (
     <div

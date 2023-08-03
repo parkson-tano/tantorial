@@ -10,16 +10,62 @@ import {
   Container,
   Group,
   Button,
+  Box,
   Select,
 } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { IconChevronDown } from "@tabler/icons-react";
 import SignupHead from "../../components/SignupHead";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from '../../context/auth-context'
+import { registerUser } from "../../actions/auth";
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
 
 export default function SchoolRegister() {
+  const navigate = useNavigate();
   const [searchValue, onSearchChange] = useState("");
-  const [classValue, onClassChange] = useState("");
-  const [schoolTeacher, setSchoolTeacher] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const form = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      schoolName: '',
+      phoneNumber: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validate: {
+      firstName: hasLength({ min: 3 }, 'First name must be at least 3 characters long'),
+      lastName: hasLength({ min: 3 }, 'Last name must be at least 3 characters long'),
+      phoneNumber: hasLength({ min: 9, max: 9 }, 'Phone number must be 9 Digits long'),
+      email: isEmail('Please enter a valid email'),
+      password: hasLength({ min: 6 }, 'Password must be at least 6 characters long'),
+      confirmPassword: matchesField('password', 'Passwords are not the same'),
+
+    }
+  });
+
+  const handleRegister = async () => {
+    const data = {
+      first_name: form.values.firstName,
+      last_name: form.values.lastName,
+      phone_number: form.values.phoneNumber,
+      email: form.values.email,
+      password: form.values.password,
+      verified: false,
+      account_type: "school",
+      suspended: false,
+      active: true,
+      admin: false,
+      role: "school"
+    };
+    const decoded = await registerUser(data);
+    console.log(decoded);
+    navigate('/login')
+  };
   return (
     <div
       style={{
@@ -27,49 +73,66 @@ export default function SchoolRegister() {
       }}
     >
       <Container size={520} my={40}>
-        <SignupHead title="School" />
+        <Box component="form" maw={400} mx="auto" onSubmit={form.onSubmit(handleRegister)}>
+          <SignupHead title="School" />
+          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+            <TextInput label="First Name"
+              my="md"
+              {...form.getInputProps('firstName')}
+            />
 
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-          <TextInput label="Full Name"
-            my="md"
-            required />
-          <TextInput label="School Name"
-            my="md"
-            required />
-          <TextInput
-            type="number"
-            label="Phone Number"
-            my="md"
-            icon={<Text color="gray" ml="xr"> +237</Text>}
-            required
-          />
-          <TextInput
-            label="Email"
-            placeholder="you@mantine.dev"
-            icon={<IconAt size="0.8rem" />}
-            required />
-          <PasswordInput
-            label="Password"
-            my="md"
-            required
-            mt="md"
-          />
-          <PasswordInput
-            label="Confirm Password"
-            my="md"
-            required
-            mt="md"
-          />
-          <Button
-            fullWidth
-            mt="xl"
-            style={{
-              backgroundColor: "#FFC107",
-            }}
-          >
-            Sign in
-          </Button>
-        </Paper>
+            <TextInput label="Last Name"
+              my="md"
+              {...form.getInputProps('lastName')}
+            />
+            <TextInput label="School Name"
+              my="md"
+              {...form.getInputProps('schoolName')}
+            />
+            <TextInput
+              type="number"
+              label="Phone Number"
+              my="md"
+              {...form.getInputProps('phoneNumber')}
+              icon={<Text color="gray" ml="xr"> +237</Text>}
+
+            />
+
+            <TextInput
+              label="Email"
+              placeholder="you@mantine.dev"
+              my="md"
+              icon={<IconAt size="0.8rem" />}
+              {...form.getInputProps('email')}
+            />
+
+            <PasswordInput
+              label="Password"
+              my="md"
+              {...form.getInputProps('password')}
+
+            />
+
+            <PasswordInput
+              label="Confirm Password"
+              my="md"
+
+              mt="md"
+              {...form.getInputProps('confirmPassword')}
+            />
+
+            <Button
+              fullWidth
+              mt="xl"
+              style={{
+                backgroundColor: "#FFC107",
+              }}
+              type="submit"
+            >
+              Sign in
+            </Button>
+          </Paper>
+        </Box>
       </Container>
     </div>
   );
