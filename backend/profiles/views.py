@@ -44,16 +44,12 @@ class SchoolProfileUpdateAPIView(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id')
         return SchoolProfile.objects.filter(user=user_id)
     
-    http_method_names = ['get', 'put', 'patch', 'head', 'options']
-    
 class TeacherProfileUpdateAPIView(viewsets.ModelViewSet):
     serializer_class = TeacherProfileSerializer
 
     def get_queryset(self):
         user_id = self.request.query_params.get('user_id')
         return TeacherProfile.objects.filter(user=user_id)
-    
-    http_method_names = ['get', 'put', 'patch', 'head', 'options']
     
 class StudentProfileUpdateAPIView(viewsets.ModelViewSet):
     serializer_class = StudentProfileSerializer
@@ -62,8 +58,6 @@ class StudentProfileUpdateAPIView(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id')
         return StudentProfile.objects.filter(user=user_id)
     
-    http_method_names = ['get', 'put', 'patch', 'head', 'options']
-    
 
 class GuardianProfileUpdateAPIView(viewsets.ModelViewSet):
     serializer_class = GuardianProfileSerializer
@@ -71,5 +65,4 @@ class GuardianProfileUpdateAPIView(viewsets.ModelViewSet):
     def get_queryset(self):
         user_id = self.request.query_params.get('user_id')
         return GuardianProfile.objects.filter(user=user_id)
-    
-    http_method_names = ['get', 'put', 'patch', 'head', 'options']
+
