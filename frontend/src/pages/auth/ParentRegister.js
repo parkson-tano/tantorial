@@ -63,8 +63,8 @@ export default function ParentRegister() {
     };
 
     try {
-      const userId = await registerUser(data); // Assuming registerUser returns the user ID
-      console.log('User ID:', userId); // Log the user ID
+      const user = await registerUser(data); // Assuming registerUser returns the user ID
+      console.log('Registration successful:', user);
       navigate('/login');
     } catch (error) {
       console.error('Registration error:', error.message);

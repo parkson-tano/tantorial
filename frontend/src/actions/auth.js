@@ -19,22 +19,26 @@ export const loginUser = async (userData) => {
 
 export const registerUser = async (userData) => {
     try {
-        await axios.post(`${API_URL}auth/register`, userData)
-        .then((res) => {
-            console.log(res);
-            return res;
-        })
-        .catch((err) => {
-            console.log(err);
-            throw new Error(err.response ? err.response.data.detail : err.message);
-        })
-        
+        const res = await axios.post(`${API_URL}auth/register`, userData);
+        return res.data;
     } catch (err) {
         console.log(err);
         throw new Error(err.response ? err.response.data.email : err.message);
 
     }
 }
+
+
+export const updateUserProfile = async (user, profileData) => {
+    try {
+        const res = await axios.post(`${API_URL}profiles`, { user, ...profileData });
+        return res.data;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.response ? err.response.data.message : err.message);
+    }
+}
+
 
 export const logoutUser = () => {
     localStorage.removeItem('jwtToken');
