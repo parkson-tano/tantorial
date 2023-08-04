@@ -83,11 +83,6 @@ DATABASES = {
 
 # }
 
-AUTHENTICATION_BACKENDS = (
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -98,7 +93,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ],
 
+    'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'  # <-- Here
+
+
 }
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 SIMPLE_JWT = {

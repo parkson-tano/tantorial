@@ -140,7 +140,7 @@ export default function ParentRegister() {
               }}
               type="submit"
             >
-              Sign in
+              Register
             </Button>
           </Paper>
         </Box>
