@@ -20,25 +20,37 @@ export const loginUser = async (userData) => {
 export const registerUser = async (userData) => {
     try {
         const res = await axios.post(`${API_URL}auth/register`, userData);
+        console.log(res.data);
+        // const profileResponse = await axios.get(`${API_URL}profile/${res?.data?.account_type}profileupdate/?user_id=${res?.data?.id}`);
+        // const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileResponse}/`, profileData);
+        // console.log(profileResponse);
+
         return res.data;
     } catch (err) {
         console.log(err);
         throw new Error(err.response ? err.response.data.email : err.message);
-
     }
 }
 
 
-export const updateUserProfile = async (user, profileData) => {
-    try {
-        const res = await axios.patch(`${API_URL}profile/${user.account_type}profileupdate/?user_id=${user.id}`,
-            profileData);
-        return res.data;
-    } catch (err) {
-        console.log(err);
-        throw new Error(err.response ? err.response.data.message : err.message);
-    }
-}
+// export const updateUserProfile = async (user, profileData) => {
+//     try {
+//         // Fetch the user's profile using a GET request
+//         const profileResponse = await axios.get(`${API_URL}profile/${user.account_type}profileupdate/?user_id=${user?.id}`);
+//         const profileId = profileResponse.data.id;
+
+//         console.log('Profile ID:', profileId);
+//         console.log('Profile data:', profileResponse);
+
+//         // Update the user's profile using a PATCH request
+//         const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileId}/`, profileData);
+
+//         return updateResponse.data; // Return the updated profile data
+//     } catch (err) {
+//         console.error(err);
+//         throw new Error(err.response ? err.response.data.message : err.message);
+//     }
+// }
 
 
 export const logoutUser = () => {

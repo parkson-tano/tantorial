@@ -11,10 +11,10 @@ router.register('studentsubject', StudentSubjectViewSet, basename='studentsubjec
 router.register('subjectteacher', SubjectTeacherViewSet, basename='subjectteacher')
 router.register('classteacher', ClassTeacherViewSet, basename='classteacher')
 router.register('schoolprofile', SchoolProfileViewSet, basename='schoolprofile')
-router.register('schoolprofileupdate', SchoolProfileUpdateAPIView, basename='schoolprofileupdate')
-router.register('teacherprofileupdate', TeacherProfileUpdateAPIView, basename='teacherprofileupdate')
-router.register('studentprofileupdate', StudentProfileUpdateAPIView, basename='studentprofileupdate')
-router.register('parentprofileupdate', GuardianProfileUpdateAPIView, basename='parentprofileupdate')
+router.register('schoolprofile-fetch', SchoolProfileUpdateAPIView, basename='schoolprofileupdate')
+router.register('teacherprofile-fetch', TeacherProfileUpdateAPIView, basename='teacherprofileupdate')
+router.register('studentprofile-fetch', StudentProfileUpdateAPIView, basename='studentprofileupdate')
+router.register('parentprofile-fetch', GuardianProfileUpdateAPIView, basename='parentprofileupdate')
 
 
 urlpatterns = [

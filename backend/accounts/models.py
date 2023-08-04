@@ -71,7 +71,7 @@ def create_profile(sender, instance, created, **kwargs):
             SchoolProfile.objects.create(user=instance)
         elif instance.account_type == 'teacher':
             TeacherProfile.objects.create(user=instance)
-        elif instance.account_type == 'guardian':
+        elif instance.account_type == 'parent':
             GuardianProfile.objects.create(user=instance)
         else:
             pass
