@@ -16,14 +16,16 @@ import {
 import { IconChevronDown } from "@tabler/icons-react";
 import SignupHead from "../../components/SignupHead";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
-import { API_URL } from "../../constant";
+import { API_URL, fetchClasses, fetchSchools, fetchSubsystems } from "../../constant";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { registerUser, updateUserProfile } from "../../actions/auth";
 
 export default function StudentRegister() {
   const navigate = useNavigate();
-
+  const [subsystems, setSubsystems] = useState([]);
+  const [schools, setSchools] = useState([]);
+  const [classes, setClasses] = useState([]);
   const form = useForm({
     initialValues: {
       firstName: '',
@@ -51,7 +53,7 @@ export default function StudentRegister() {
       first_name: form.values.firstName,
       last_name: form.values.lastName,
       password: form.values.password,
-      email : `${form.values.firstName.toLowerCase()}.${form.values.lastName.toLowerCase()}@tantorial.ng`,
+      email: `${form.values.firstName.toLowerCase()}.${form.values.lastName.toLowerCase()}@tantorial.ng`,
       phone_number: "00000000000",
       verified: false,
       account_type: "student",
@@ -67,11 +69,10 @@ export default function StudentRegister() {
           const profileData = {
             first_name: form.values.firstName,
             last_name: form.values.lastName,
-
             // language: form.values.subsystem,
-            // school: form.values.schoolName,
-            // subsystem: form.values.subsystem,
-            // class: form.values.class,
+            school: form.values.school,
+            subsystem: form.values.subsystem,
+            student_class: form.values.class,
           };
           const profile = updateUserProfile(user, profileData);
           navigate('/login');
@@ -81,6 +82,34 @@ export default function StudentRegister() {
       console.error('Registration error:', error.message);
     }
   };
+
+  useEffect(() => {
+    const fetchSubsystemsAndSchools = async () => {
+      try {
+        const [subsystemsData, schoolsData, classesData] = await Promise.all([
+          fetchSubsystems(),
+          fetchSchools(),
+          fetchClasses()
+        ]);
+
+        setSubsystems(subsystemsData);
+        const filter_school = schoolsData.filter(item => item.subsystem === form.values.subsystem);
+        setSchools(filter_school);
+
+        // Filter classes based on the selected school
+        const filter_class = classesData.filter(item => item.school === form.values.school);
+
+        setClasses(filter_class);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    };
+
+    fetchSubsystemsAndSchools();
+  }, [form.values.school]); // Dependency on form.values.school
+
+
+
 
   return (
     <div
@@ -102,7 +131,7 @@ export default function StudentRegister() {
             <Select
               mt="md"
               label="Subsystem"
-              data={['English', 'French', 'Bilingual']}
+              data={subsystems}
               rightSection={<IconChevronDown size="1rem" />}
               {...form.getInputProps('subsystem')}
               placeholder="Select Subsystem"
@@ -111,19 +140,16 @@ export default function StudentRegister() {
               mt="md"
               label="Your School"
               searchable
-
               rightSection={<IconChevronDown size="1rem" />}
               nothingFound="Your School is not listed"
-              data={["React", "Angular", "Svelte", "Vue"]}
+              data={schools}
               {...form.getInputProps('school')}
             />
             <Select
               mt="md"
               label="Your Class"
-              searchable
               rightSection={<IconChevronDown size="1rem" />}
-              nothingFound="Your Class is not listed"
-              data={["React", "Angular", "Svelte", "Vue"]}
+              data={classes}
               {...form.getInputProps('class')}
             />
             <PasswordInput

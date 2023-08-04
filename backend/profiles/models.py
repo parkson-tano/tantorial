@@ -22,7 +22,7 @@ class SchoolProfile(models.Model):
         SubDivision, on_delete=models.SET_NULL, null=True, blank=True)
     locality = models.ForeignKey(
         Locality, on_delete=models.SET_NULL, null=True, blank=True)
-    subsysytem = models.ForeignKey(
+    subsystem = models.ForeignKey(
         Subsystem, on_delete=models.SET_NULL, null=True, blank=True)
     motto = models.CharField(max_length=256, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
