@@ -52,7 +52,7 @@ export default function StudentRegister() {
       last_name: form.values.lastName,
       password: form.values.password,
       email : `${form.values.firstName.toLowerCase()}.${form.values.lastName.toLowerCase()}@tantorial.ng`,
-      phoneNumber: '00000000000',
+      phone_number: "00000000000",
       verified: false,
       account_type: "student",
       suspended: false,
@@ -65,7 +65,13 @@ export default function StudentRegister() {
       registerUser(data)
         .then(user => {
           const profileData = {
-            school_name: form.values.schoolName,
+            first_name: form.values.firstName,
+            last_name: form.values.lastName,
+
+            // language: form.values.subsystem,
+            // school: form.values.schoolName,
+            // subsystem: form.values.subsystem,
+            // class: form.values.class,
           };
           const profile = updateUserProfile(user, profileData);
           navigate('/login');

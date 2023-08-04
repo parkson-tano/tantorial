@@ -19,7 +19,7 @@ import SignupHead from "../../components/SignupHead";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../../context/auth-context'
-import { registerUser } from "../../actions/auth";
+import { registerUser, updateUserProfile } from "../../actions/auth";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
 
 export default function TeacherRegister() {
@@ -30,7 +30,7 @@ export default function TeacherRegister() {
     initialValues: {
       firstName: '',
       lastName: '',
-      phone_number: '',
+      phoneNumber: '',
       email: '',
       school_teacher: false,
       subsystem: '',
@@ -42,7 +42,7 @@ export default function TeacherRegister() {
     validate: {
       firstName: hasLength({ min: 3 }, 'First name must be at least 3 characters long'),
       lastName: hasLength({ min: 3 }, 'Last name must be at least 3 characters long'),
-      phone_number: hasLength({ min: 9, max: 9 }, 'Phone number must be 9 Digits long'),
+      phoneNumber: hasLength({ min: 9, max: 9 }, 'Phone number must be 9 Digits long'),
       email: isEmail('Please enter a valid email'),
       password: hasLength({ min: 6 }, 'Password must be at least 6 characters long'),
       confirmPassword: matchesField('password', 'Passwords are not the same'),
@@ -63,9 +63,23 @@ export default function TeacherRegister() {
       admin: false,
       role: "teacher"
     };
-    const decoded = await registerUser(data);
-    console.log(decoded);
-    navigate('/login')
+    try {
+      registerUser(data)
+        .then(user => {
+          const profileData = {
+            first_name: form.values.firstName,
+            last_name: form.values.lastName,
+            phone_number: form.values.phoneNumber,
+            // school  : form.values.school,
+            // subsystem: form.values.subsystem,
+          };
+          const profile = updateUserProfile(user, profileData);
+          navigate('/login');
+
+        })
+    } catch (error) {
+      console.error('Registration error:', error.message);
+    }
   };
 
 
@@ -94,7 +108,7 @@ export default function TeacherRegister() {
               label="Phone Number"
               my="md"
               icon={<Text color="gray" ml="xr"> +237</Text>}
-              {...form.getInputProps('phone_number')}
+              {...form.getInputProps('phoneNumber')}
             />
             <TextInput
               label="Email"
