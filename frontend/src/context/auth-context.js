@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            axios.get(`${API_URL}profile/profilepersonalfetch/?user_id=${user.user_id}`)
+            axios.get(`${API_URL}profile/${user?.account_type}profile-fetch/?user_id=${user.user_id}`)
                 .then((res) => {
                     console.log(res);
                     setUserProfile(res.data.results[0]);

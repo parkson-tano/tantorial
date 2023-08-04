@@ -18,7 +18,7 @@ import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from
 
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
 
   const form = useForm({
@@ -47,7 +47,7 @@ export default function Login() {
   }
 
 
-
+  console.log(user);
   return (
     <div
       style={{
