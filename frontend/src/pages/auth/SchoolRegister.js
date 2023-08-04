@@ -19,7 +19,7 @@ import SignupHead from "../../components/SignupHead";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../../context/auth-context'
-import { registerUser } from "../../actions/auth";
+import { registerUser, updateUserProfile } from "../../actions/auth";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
 
 export default function SchoolRegister() {
@@ -62,10 +62,23 @@ export default function SchoolRegister() {
       admin: false,
       role: "school"
     };
-    const decoded = await registerUser(data);
-    console.log(decoded);
-    navigate('/login')
+
+    try {
+      registerUser(data)
+        .then(user => {
+          const profileData = {
+            school_name: form.values.schoolName,
+          };
+          const profile = updateUserProfile(user, profileData);
+          navigate('/login');
+
+        })
+    } catch (error) {
+      console.error('Registration error:', error.message);
+    }
   };
+
+
   return (
     <div
       style={{

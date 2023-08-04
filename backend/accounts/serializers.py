@@ -51,11 +51,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=User.objects.all(),
                                      message='This email is already taken')]
     )
-    phone_number = serializers.CharField(
-        required=True,
-        validators=[UniqueValidator(queryset=User.objects.all(),
-                                        message='This phone number is already taken')]
-    )
+    # phone_number = serializers.CharField(
+    #     required=True,
+    #     validators=[UniqueValidator(queryset=User.objects.all(),
+    #                                     message='This phone number is already taken')]
+    # )
 
     password = serializers.CharField(
         write_only=True, required=True, validators=[validate_password])

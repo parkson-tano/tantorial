@@ -20,11 +20,6 @@ export const loginUser = async (userData) => {
 export const registerUser = async (userData) => {
     try {
         const res = await axios.post(`${API_URL}auth/register`, userData);
-        console.log(res.data);
-        // const profileResponse = await axios.get(`${API_URL}profile/${res?.data?.account_type}profileupdate/?user_id=${res?.data?.id}`);
-        // const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileResponse}/`, profileData);
-        // console.log(profileResponse);
-
         return res.data;
     } catch (err) {
         console.log(err);
@@ -33,24 +28,27 @@ export const registerUser = async (userData) => {
 }
 
 
-// export const updateUserProfile = async (user, profileData) => {
-//     try {
-//         // Fetch the user's profile using a GET request
-//         const profileResponse = await axios.get(`${API_URL}profile/${user.account_type}profileupdate/?user_id=${user?.id}`);
-//         const profileId = profileResponse.data.id;
+export const updateUserProfile = async (user, profileData) => {
+    try {
+        // Fetch the user's profile using a GET request
+        const profileResponse = await axios.get(`${API_URL}profile/${user.account_type}profile-fetch/?user_id=${user?.id}`);
+        console.log(profileResponse);
+        // Check if the profileResponse contains valid data and has the 'id' property
+        if (!profileResponse.data || !profileResponse.data[0].id) {
+            throw new Error('Profile data or profile ID not found');
+        }
 
-//         console.log('Profile ID:', profileId);
-//         console.log('Profile data:', profileResponse);
+        const profileId = profileResponse.data[0].id;
+        // Update the user's profile using a PATCH request
+        const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileId}/`, profileData);
 
-//         // Update the user's profile using a PATCH request
-//         const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileId}/`, profileData);
+        return updateResponse.data; // Return the updated profile data
+    } catch (err) {
+        console.error(err);
+        throw new Error(err.response ? err.response.data.message : err.message);
+    }
+}
 
-//         return updateResponse.data; // Return the updated profile data
-//     } catch (err) {
-//         console.error(err);
-//         throw new Error(err.response ? err.response.data.message : err.message);
-//     }
-// }
 
 
 export const logoutUser = () => {

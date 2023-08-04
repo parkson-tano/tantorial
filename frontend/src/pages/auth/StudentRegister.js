@@ -19,7 +19,7 @@ import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from
 import { API_URL } from "../../constant";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../actions/auth";
+import { registerUser, updateUserProfile } from "../../actions/auth";
 
 export default function StudentRegister() {
   const navigate = useNavigate();
@@ -51,6 +51,8 @@ export default function StudentRegister() {
       first_name: form.values.firstName,
       last_name: form.values.lastName,
       password: form.values.password,
+      email : `${form.values.firstName.toLowerCase()}.${form.values.lastName.toLowerCase()}@tantorial.ng`,
+      phoneNumber: '00000000000',
       verified: false,
       account_type: "student",
       suspended: false,
@@ -58,9 +60,20 @@ export default function StudentRegister() {
       admin: false,
       role: "student",
     };
-    const decoded = await registerUser(data);
-    console.log(decoded);
-    navigate('/login')
+
+    try {
+      registerUser(data)
+        .then(user => {
+          const profileData = {
+            school_name: form.values.schoolName,
+          };
+          const profile = updateUserProfile(user, profileData);
+          navigate('/login');
+
+        })
+    } catch (error) {
+      console.error('Registration error:', error.message);
+    }
   };
 
   return (
