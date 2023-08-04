@@ -1,4 +1,5 @@
 from django.db import models
+
 # Create your models here.
 
 class Subsystem(models.Model):
@@ -8,29 +9,21 @@ class Subsystem(models.Model):
 		return self.title
 
 class Language(models.Model):
-	subsystem = models.ForeignKey(Subsystem, on_delete=models.CASCADE)
-	title = models.CharField(max_length=56)
-
-	def __str__(self):
-		return self.title
-
-class Cycle(models.Model):
-	subsystem = models.ForeignKey(Subsystem, on_delete=models.CASCADE)
 	title = models.CharField(max_length=56)
 
 	def __str__(self):
 		return self.title
 
 class ClassRoom(models.Model):
-	subsystem = models.ForeignKey(Subsystem, on_delete=models.CASCADE)
-	cycle = models.ForeignKey(Cycle, on_delete=models.CASCADE, null=True, blank=True)
+	school = models.ForeignKey('profiles.SchoolProfile', null=True, blank=True, on_delete=models.CASCADE, related_name='school_classroom')
+	subsystem = models.ForeignKey(Subsystem, null=True, blank=True, on_delete=models.CASCADE)
 	title = models.CharField(max_length=56)
 
 	def __str__(self):
 		return self.title
 
 class Subject(models.Model):
-	subsystem = models.ForeignKey(Subsystem, on_delete=models.CASCADE)
+	school = models.ForeignKey('profiles.SchoolProfile', null=True, blank=True, on_delete=models.CASCADE, related_name='school_subject')
 	title = models.CharField(max_length=56)
 
 	def __str__(self):

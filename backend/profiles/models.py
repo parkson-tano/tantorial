@@ -22,10 +22,8 @@ class SchoolProfile(models.Model):
         SubDivision, on_delete=models.SET_NULL, null=True, blank=True)
     locality = models.ForeignKey(
         Locality, on_delete=models.SET_NULL, null=True, blank=True)
-    school_language = models.ForeignKey(
-        Language, on_delete=models.SET_NULL, null=True, blank=True)
-    cycle = models.ForeignKey(
-        Cycle, on_delete=models.SET_NULL, null=True, blank=True)
+    subsysytem = models.ForeignKey(
+        Subsystem, on_delete=models.SET_NULL, null=True, blank=True)
     motto = models.CharField(max_length=256, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -119,8 +117,7 @@ class StudentProfile(models.Model):
 
 class StudentGuardian(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    guardian = models.ForeignKey(
-        GuardianProfile, on_delete=models.CASCADE, null=True, blank=True)
+    guardian = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='guardian')
     relationship = models.CharField(max_length=56, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 

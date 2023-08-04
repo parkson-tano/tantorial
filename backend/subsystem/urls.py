@@ -5,7 +5,6 @@ from .views import *
 router = routers.DefaultRouter()
 router.register('subsystem', SubsystemViewSet)
 router.register('language', LanguageViewSet)
-router.register('cycle', CycleViewSet)
 router.register('classroom', ClassRoomViewSet)
 router.register('subject', SubjectViewSet)
 router.register('country', CountryViewSet)

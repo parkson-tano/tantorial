@@ -11,10 +11,6 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = '__all__'
 
-class CycleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cycle
-        fields = '__all__'
 
 class ClassRoomSerializer(serializers.ModelSerializer):
     class Meta:

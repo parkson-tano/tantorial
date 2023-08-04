@@ -11,9 +11,6 @@ class LanguageViewSet(viewsets.ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
 
-class CycleViewSet(viewsets.ModelViewSet):
-    queryset = Cycle.objects.all()
-    serializer_class = CycleSerializer
 
 class ClassRoomViewSet(viewsets.ModelViewSet):
     queryset = ClassRoom.objects.all()
