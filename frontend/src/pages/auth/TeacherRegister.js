@@ -21,11 +21,13 @@ import axios from "axios";
 import { useAuth } from '../../context/auth-context'
 import { registerUser, updateUserProfile } from "../../actions/auth";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
+import { API_URL, fetchClasses, fetchSchools, fetchSubsystems } from "../../constant";
 
 export default function TeacherRegister() {
   const navigate = useNavigate();
-  const [schoolTeacher, setSchoolTeacher] = useState(false);
-
+  const [subsystems, setSubsystems] = useState([]);
+  const [schools, setSchools] = useState([]);
+  const [classes, setClasses] = useState([]);
   const form = useForm({
     initialValues: {
       firstName: '',
@@ -82,7 +84,27 @@ export default function TeacherRegister() {
     }
   };
 
+  useEffect(() => {
+    const fetchSubsystemsAndSchools = async () => {
+      try {
+        const [subsystemsData, schoolsData, classesData] = await Promise.all([
+          fetchSubsystems(),
+          fetchSchools(),
+          fetchClasses()
+        ]);
 
+        setSubsystems(subsystemsData);
+        // const filter_school = schoolsData.filter(item => item.subsystem === form.values.subsystem);
+        setSchools(schoolsData);
+        // Filter classes based on the selected school
+        const filter_class = classesData.filter(item => item.school === form.values.school);
+        setClasses(filter_class);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    };
+    fetchSubsystemsAndSchools();
+  }, [form.values.school]);
 
 
   return (
@@ -126,7 +148,8 @@ export default function TeacherRegister() {
                   <Select
                     mt="md"
                     label="Subsystem"
-                    data={['English', 'French', 'Both']}
+                    data={subsystems}
+                    clearable
                     placeholder="Select Subsystem"
                     rightSection={<IconChevronDown size="1rem" />}
                     {...form.getInputProps('subsystem')}
@@ -136,10 +159,11 @@ export default function TeacherRegister() {
                     mt="md"
                     label="Your School"
                     searchable
+                    clearable
                     nothingFound="Your School is not listed"
                     my="md"
                     rightSection={<IconChevronDown size="1rem" />}
-                    data={["React", "Angular", "Svelte", "Vue"]}
+                    data={schools}
                     {...form.getInputProps('school')}
                   />
                 </>

@@ -93,21 +93,17 @@ export default function StudentRegister() {
         ]);
 
         setSubsystems(subsystemsData);
-        const filter_school = schoolsData.filter(item => item.subsystem === form.values.subsystem);
-        setSchools(filter_school);
-
+        // const filter_school = schoolsData.filter(item => item.subsystem === form.values.subsystem);
+        setSchools(schoolsData);
         // Filter classes based on the selected school
         const filter_class = classesData.filter(item => item.school === form.values.school);
-
         setClasses(filter_class);
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
     };
-
     fetchSubsystemsAndSchools();
   }, [form.values.school]); // Dependency on form.values.school
-
 
 
 

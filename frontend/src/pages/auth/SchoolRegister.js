@@ -21,11 +21,13 @@ import axios from "axios";
 import { useAuth } from '../../context/auth-context'
 import { registerUser, updateUserProfile } from "../../actions/auth";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
+import { API_URL, fetchClasses, fetchSchools, fetchSubsystems } from "../../constant";
 
 export default function SchoolRegister() {
   const navigate = useNavigate();
   const [searchValue, onSearchChange] = useState("");
   const [loading, setLoading] = useState(false);
+  const [subsystems, setSubsystems] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -36,11 +38,14 @@ export default function SchoolRegister() {
       email: '',
       password: '',
       confirmPassword: '',
+      subsystem: '',
     },
     validate: {
       firstName: hasLength({ min: 3 }, 'First name must be at least 3 characters long'),
       lastName: hasLength({ min: 3 }, 'Last name must be at least 3 characters long'),
       phoneNumber: hasLength({ min: 9, max: 9 }, 'Phone number must be 9 Digits long'),
+
+      schoolName: isNotEmpty('Please enter a school name'),
       email: isEmail('Please enter a valid email'),
       password: hasLength({ min: 6 }, 'Password must be at least 6 characters long'),
       confirmPassword: matchesField('password', 'Passwords are not the same'),
@@ -68,6 +73,7 @@ export default function SchoolRegister() {
         .then(user => {
           const profileData = {
             school_name: form.values.schoolName,
+            subsystem: form.values.subsystem,
           };
           const profile = updateUserProfile(user, profileData);
           navigate('/login');
@@ -78,6 +84,24 @@ export default function SchoolRegister() {
     }
   };
 
+
+
+  useEffect(() => {
+    const fetchSubsystemsAndSchools = async () => {
+      try {
+        const [subsystemsData] = await Promise.all([
+          fetchSubsystems(),
+        ]);
+
+        setSubsystems(subsystemsData);
+        // const filter_school = schoolsData.filter(item => item.subsystem === form.values.subsystem);
+
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    };
+    fetchSubsystemsAndSchools();
+  }, []); 
 
   return (
     <div
@@ -101,6 +125,14 @@ export default function SchoolRegister() {
             <TextInput label="School Name"
               my="md"
               {...form.getInputProps('schoolName')}
+            />
+            <Select
+              mt="md"
+              label="Subsystem"
+              data={subsystems}
+              rightSection={<IconChevronDown size="1rem" />}
+              {...form.getInputProps('subsystem')}
+              placeholder="Select Subsystem"
             />
             <TextInput
               type="number"

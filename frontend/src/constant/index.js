@@ -11,7 +11,6 @@ export const fetchSchools = async () => {
             value: item.id,
             label: item.school_name,
         }));
-        console.log(data);
         return data; // Return the data array
     } catch (error) {
         throw new Error(error.response ? error.response.data.message : error.message);
@@ -23,11 +22,10 @@ export const fetchClasses = async () => {
         const response = await axios.get(`${API_URL}subsystem/classroom/`);
         const res = response.data;
         const data = res.map((item) => ({
-            school : item.school,
+            school: item.school,
             value: item.id,
             label: item.title,
         }));
-        console.log(data);
         return data; // Return the data array
 
     } catch (error) {
@@ -39,7 +37,7 @@ export const fetchSubsystems = async () => {
     try {
         const response = await axios.get(`${API_URL}subsystem/subsystem/`);
         const res = response.data;
-        const data = res.map((item) => ({
+        const data = res?.map((item) => ({
             value: item.id,
             label: item.title,
         }));
