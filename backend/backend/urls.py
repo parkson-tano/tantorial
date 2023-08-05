@@ -34,6 +34,7 @@ urlpatterns = [
     path('profile/', include('profiles.urls')),
     path('subsystem/', include('subsystem.urls')),
     path('assessment/', include('assessment.urls')),
+    path('lesson/', include('lesson.urls')),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
