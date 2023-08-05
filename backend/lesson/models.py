@@ -12,6 +12,7 @@ class Progression(models.Model):
     approved = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -27,6 +28,7 @@ class Chapter(models.Model):
     approved = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -44,6 +46,7 @@ class Lesson(models.Model):
     approved = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     date_start = models.DateTimeField(blank=True, null=True)
     date_end = models.DateTimeField(blank=True, null=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -56,6 +59,8 @@ class Competence(models.Model):
     order = models.IntegerField(default=0)
     title = models.CharField(max_length=256, blank=True, null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    publish = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
