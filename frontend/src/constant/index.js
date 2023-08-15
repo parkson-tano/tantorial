@@ -2,12 +2,11 @@ import axios from "axios";
 
 export const API_URL = "https://danieltano.pythonanywhere.com/";
 
-export const fetchSchools = async () => {
+export const fetchSchools = async (subsystem) => {
     try {
         const response = await axios.get(`${API_URL}profile/schoolprofile/`);
         const res = response.data.results;
         const data = res.map((item) => ({
-            subsystem: item.subsystem,
             value: item.id,
             label: item.school_name,
         }));
@@ -22,7 +21,6 @@ export const fetchClasses = async () => {
         const response = await axios.get(`${API_URL}subsystem/classroom/`);
         const res = response.data.results;
         const data = res.map((item) => ({
-            school: item.school,
             value: item.id,
             label: item.title,
         }));
