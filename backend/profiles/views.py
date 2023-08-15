@@ -16,6 +16,14 @@ class StudentProfileViewSet(viewsets.ModelViewSet):
 class SchoolProfileViewSet(viewsets.ModelViewSet):
     queryset = SchoolProfile.objects.all()
     serializer_class = SchoolProfileSerializer
+
+class SchoolFetchAPIView(viewsets.ModelViewSet):
+    serializer_class = SchoolProfileSerializer
+
+    def get_queryset(self):
+        subsystem = self.request.query_params.get('subsystem')
+        return SchoolProfile.objects.filter(subsystem=subsystem)
+
 class GuardianProfileViewSet(viewsets.ModelViewSet):
     queryset = GuardianProfile.objects.all()
     serializer_class = GuardianProfileSerializer

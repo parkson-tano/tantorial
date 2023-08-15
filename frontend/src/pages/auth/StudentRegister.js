@@ -103,7 +103,7 @@ export default function StudentRegister() {
       }
     };
     fetchSubsystemsAndSchools();
-  }, [form.values.school]); // Dependency on form.values.school
+  }, []); // Dependency on form.values.school
 
 
 

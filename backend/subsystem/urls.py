@@ -6,12 +6,14 @@ router = routers.DefaultRouter()
 router.register('subsystem', SubsystemViewSet)
 router.register('language', LanguageViewSet)
 router.register('classroom', ClassRoomViewSet)
+router.register('classroom-fetch', ClassFetchAPIView)
 router.register('subject', SubjectViewSet)
 router.register('country', CountryViewSet)
 router.register('region', RegionViewSet)
 router.register('division', DivisionViewSet)
 router.register('subdivision', SubDivisionViewSet)
 router.register('locality', LocalityViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),
