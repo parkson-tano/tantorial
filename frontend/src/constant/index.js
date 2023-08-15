@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "https://api.tantorial.com/";
+export const API_URL = "https://danieltano.pythonanywhere.com/";
 
 export const fetchSchools = async () => {
     try {
@@ -36,8 +36,8 @@ export const fetchClasses = async () => {
 export const fetchSubsystems = async () => {
     try {
         const response = await axios.get(`${API_URL}subsystem/subsystem/`);
-        const res = response.data;
-        const data = res?.map((item) => ({
+        const res = await response?.data?.results;
+        const data = await res?.map((item) => ({
             value: item.id,
             label: item.title,
         }));

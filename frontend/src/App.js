@@ -10,16 +10,17 @@ import { Provider } from 'react-redux';
 import { Notifications } from '@mantine/notifications';
 import MainRoute from './routes/mainroute/MainRoute';
 import { AuthProvider } from './context/auth-context';
-
+import TeacherNav from './components/teacherfeed/TeacherNav';
 
 function App() {
   return (
     <AuthProvider>
-    <Router>
-      <Routes>
-        <Route path="/*" element={<MainRoute />} />
-      </Routes>
-    </Router>
+      <TeacherNav />
+      <Router>
+        <Routes>
+          <Route path="/*" element={<MainRoute />} />
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }
