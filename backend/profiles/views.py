@@ -9,24 +9,50 @@ class TeacherProfileViewSet(viewsets.ModelViewSet):
     queryset = TeacherProfile.objects.all()
     serializer_class = TeacherProfileSerializer
 
+    def get_queryset(self):
+        queryset = self.queryset
+        user = self.request.query_params.get('user')
+
+        if user is not None:
+            queryset =  queryset.filter(user=user)
+        return queryset
+
 class StudentProfileViewSet(viewsets.ModelViewSet):
     queryset = StudentProfile.objects.all()
     serializer_class = StudentProfileSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        user = self.request.query_params.get('user')
+
+        if user is not None:
+            queryset =  queryset.filter(user=user)
+        return queryset
 
 class SchoolProfileViewSet(viewsets.ModelViewSet):
     queryset = SchoolProfile.objects.all()
     serializer_class = SchoolProfileSerializer
 
-class SchoolFetchAPIView(viewsets.ModelViewSet):
-    serializer_class = SchoolProfileSerializer
-
     def get_queryset(self):
+        queryset = self.queryset
         subsystem = self.request.query_params.get('subsystem')
-        return SchoolProfile.objects.filter(subsystem=subsystem)
+
+        if subsystem is not None:
+            return queryset.filter(subsystem=subsystem)
+        else:
+            return queryset
 
 class GuardianProfileViewSet(viewsets.ModelViewSet):
     queryset = GuardianProfile.objects.all()
     serializer_class = GuardianProfileSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        user = self.request.query_params.get('user')
+
+        if user is not None:
+            queryset =  queryset.filter(user=user)
+        return queryset
 
 class StudentGuardianViewSet(viewsets.ModelViewSet):
     queryset = StudentGuardian.objects.all()
@@ -45,32 +71,4 @@ class ClassTeacherViewSet(viewsets.ModelViewSet):
     serializer_class = ClassTeacherSerializer
 
 
-class SchoolProfileUpdateAPIView(viewsets.ModelViewSet):
-    serializer_class = SchoolProfileSerializer
-
-    def get_queryset(self):
-        user_id = self.request.query_params.get('user_id')
-        return SchoolProfile.objects.filter(user=user_id)
-    
-class TeacherProfileUpdateAPIView(viewsets.ModelViewSet):
-    serializer_class = TeacherProfileSerializer
-
-    def get_queryset(self):
-        user_id = self.request.query_params.get('user_id')
-        return TeacherProfile.objects.filter(user=user_id)
-    
-class StudentProfileUpdateAPIView(viewsets.ModelViewSet):
-    serializer_class = StudentProfileSerializer
-
-    def get_queryset(self):
-        user_id = self.request.query_params.get('user_id')
-        return StudentProfile.objects.filter(user=user_id)
-    
-
-class GuardianProfileUpdateAPIView(viewsets.ModelViewSet):
-    serializer_class = GuardianProfileSerializer
-
-    def get_queryset(self):
-        user_id = self.request.query_params.get('user_id')
-        return GuardianProfile.objects.filter(user=user_id)
 

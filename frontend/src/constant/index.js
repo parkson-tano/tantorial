@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "https://danieltano.pythonanywhere.com/";
+export const API_URL = "http://127.0.0.1:8000/";
 
 export const fetchSchools = async (subsystem) => {
     try {

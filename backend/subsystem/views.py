@@ -16,14 +16,13 @@ class ClassRoomViewSet(viewsets.ModelViewSet):
     queryset = ClassRoom.objects.all()
     serializer_class = ClassRoomSerializer
 
-class ClassFetchAPIView(viewsets.ModelViewSet):
-    serializer_class = ClassRoomSerializer
     def get_queryset(self):
+        queryset = self.queryset
         school = self.request.query_params.get('school', None)
         if school is not None:
-            return ClassRoom.objects.filter(school=school)
+            return queryset.filter(school=school)
         else:
-            return ClassRoom.objects.all()
+            return queryset
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
