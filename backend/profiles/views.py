@@ -35,7 +35,11 @@ class SchoolProfileViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        subsystem = self.request.query_params.get('subsystem')
+        subsystem = self.request.query_params.get('subsystem', None)
+        user = self.request.query_params.get('user', None)
+
+        if user is not None:
+            return queryset.filter(user = user)
 
         if subsystem is not None:
             return queryset.filter(subsystem=subsystem)

@@ -31,14 +31,14 @@ export const registerUser = async (userData) => {
 export const updateUserProfile = async (user, profileData) => {
     try {
         // Fetch the user's profile using a GET request
-        const profileResponse = await axios.get(`${API_URL}profile/${user.account_type}profile-fetch/?user_id=${user?.id}`);
+        const profileResponse = await axios.get(`${API_URL}profile/${user.account_type}profile/?user=${user?.id}`);
         console.log(profileResponse);
         // Check if the profileResponse contains valid data and has the 'id' property
-        if (!profileResponse.data || !profileResponse.data[0].id) {
+        if (!profileResponse.data?.results || !profileResponse.data?.results[0].id) {
             throw new Error('Profile data or profile ID not found');
         }
 
-        const profileId = profileResponse.data[0].id;
+        const profileId = profileResponse?.data?.results[0].id;
         // Update the user's profile using a PATCH request
         const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileId}/`, profileData);
 

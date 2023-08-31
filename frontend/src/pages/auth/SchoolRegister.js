@@ -75,6 +75,8 @@ export default function SchoolRegister() {
             school_name: form.values.schoolName,
             subsystem: form.values.subsystem,
           };
+          console.log("------------------------------")
+          console.log(user)
           const profile = updateUserProfile(user, profileData);
           navigate('/login');
 

@@ -2,21 +2,16 @@ import React, { useState, useEffect } from "react";
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
-  Anchor,
   Paper,
-  Title,
-  Text,
   Container,
-  Group,
   Button,
   Select,
   Box
 } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import SignupHead from "../../components/SignupHead";
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
-import { API_URL, fetchClasses, fetchSchools, fetchSubsystems } from "../../constant";
+import { useForm, isNotEmpty, hasLength, matchesField } from '@mantine/form';
+import { fetchClasses, fetchSchools, fetchSubsystems } from "../../constant";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { registerUser, updateUserProfile } from "../../actions/auth";
