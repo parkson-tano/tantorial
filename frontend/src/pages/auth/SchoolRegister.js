@@ -25,6 +25,7 @@ import { API_URL, fetchClasses, fetchSchools, fetchSubsystems } from "../../cons
 
 export default function SchoolRegister() {
   const navigate = useNavigate();
+  const { login, user } = useAuth();
   const [searchValue, onSearchChange] = useState("");
   const [loading, setLoading] = useState(false);
   const [subsystems, setSubsystems] = useState([]);
@@ -52,6 +53,18 @@ export default function SchoolRegister() {
 
     }
   });
+  const handleLogin = async () => {
+    const data = {
+      email: form.values.email,
+      password: form.values.password,
+
+    }
+    try {
+      await login(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const handleRegister = async () => {
     const data = {
@@ -70,20 +83,19 @@ export default function SchoolRegister() {
 
     try {
       registerUser(data)
-        .then(user => {
+        .then(async (user) => {
+          await handleLogin(); // Wait for login to finish before proceeding
           const profileData = {
             school_name: form.values.schoolName,
             subsystem: form.values.subsystem,
           };
-          console.log("------------------------------")
-          console.log(user)
-          const profile = updateUserProfile(user, profileData);
+          await updateUserProfile(user, profileData); // Wait for profile update to finish
           navigate('/login');
-
-        })
+        });
     } catch (error) {
       console.error('Registration error:', error.message);
     }
+
   };
 
 
@@ -103,7 +115,7 @@ export default function SchoolRegister() {
       }
     };
     fetchSubsystemsAndSchools();
-  }, []); 
+  }, []);
 
   return (
     <div

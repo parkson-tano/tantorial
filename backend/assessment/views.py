@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .serializers import *
 from .models import *
 # Create your views here.
@@ -7,6 +7,7 @@ from .models import *
 class AssessmentQuestionViewSet(viewsets.ModelViewSet):
     queryset = AssessmentQuestion.objects.all()
     serializer_class = AssessmentQuestionSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = self.queryset.filter(deleted=False, archived=False)
@@ -20,6 +21,7 @@ class AssessmentQuestionViewSet(viewsets.ModelViewSet):
 class AssessmentTargetViewSet(viewsets.ModelViewSet):
     queryset = AssessmentTarget.objects.all()
     serializer_class = AssessmentTargetSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = self.queryset.filter(deleted=False, archived=False)
@@ -31,15 +33,19 @@ class AssessmentTargetViewSet(viewsets.ModelViewSet):
 class StudentMarkViewSet(viewsets.ModelViewSet):
     queryset = StudentMark.objects.all()
     serializer_class = StudentMarkSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class StudentAnswerViewSet(viewsets.ModelViewSet):
     queryset = StudentAnswer.objects.all()
     serializer_class = StudentAnswerSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class TeacherAssessmentViewSet(viewsets.ModelViewSet):
     queryset = TeacherAssessment.objects.all()
     serializer_class = TeacherAssessmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class AssessmentTypeViewSet(viewsets.ModelViewSet):
     queryset = AssessmentType.objects.all()
     serializer_class = AssessmentTypeSerializer
+    permission_classes = [permissions.IsAuthenticated]
