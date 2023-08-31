@@ -26,6 +26,8 @@ class TeacherAssessment(models.Model):
 	dateline = models.DateTimeField(blank=True, null=True)
 	objective = models.TextField(blank=True, null=True)
 	competence = models.TextField(blank=True, null=True)
+	deleted = models.BooleanField(default=False)
+	archived =  models.BooleanField(default=False)
 	date_updated = models.DateTimeField(auto_now=True)
 	date_created = models.DateTimeField(auto_now_add=True)
 
