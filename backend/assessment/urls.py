@@ -7,9 +7,14 @@ router.register('assessmentquestion', AssessmentQuestionViewSet)
 router.register('assessmenttarget', AssessmentTargetViewSet)
 router.register('studentmark', StudentMarkViewSet)
 router.register('studentanswer', StudentAnswerViewSet)
-router.register('teacherassessment', TeacherAssessmentViewSet)
+# router.register('teacherassessment', TeacherAssessmentViewSet)
 router.register('assessmenttype', AssessmentTypeViewSet)
+
+
+router.register('teacherassessment', TeacherAssessmentViewSet, basename='teacherassessment')
 
 urlpatterns = [
     path('', include(router.urls)),
 ]
+
+
