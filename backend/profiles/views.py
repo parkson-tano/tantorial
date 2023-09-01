@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import *
 from .serializers import *
 
@@ -8,50 +8,56 @@ from .serializers import *
 class TeacherProfileViewSet(viewsets.ModelViewSet):
     queryset = TeacherProfile.objects.all()
     serializer_class = TeacherProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = self.queryset
-        user = self.request.query_params.get('user')
-
-        if user is not None:
-            queryset =  queryset.filter(user=user)
+        user = self.request.user 
+        queryset = self.queryset.filter(user=user)
         return queryset
 
 class StudentProfileViewSet(viewsets.ModelViewSet):
     queryset = StudentProfile.objects.all()
     serializer_class = StudentProfileSerializer
 
-    def get_queryset(self):
-        queryset = self.queryset
-        user = self.request.query_params.get('user')
+    permission_classes = [permissions.IsAuthenticated]
 
-        if user is not None:
-            queryset =  queryset.filter(user=user)
+    def get_queryset(self):
+        user = self.request.user 
+        queryset = self.queryset.filter(user=user)
         return queryset
+    
 
 class SchoolProfileViewSet(viewsets.ModelViewSet):
     queryset = SchoolProfile.objects.all()
     serializer_class = SchoolProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = self.queryset
+        user = self.request.user 
         subsystem = self.request.query_params.get('subsystem')
+        
+        queryset = self.queryset  # Start with the base queryset
+
+        if user.is_superuser:
+            return queryset
+
+        if user.is_authenticated:
+            queryset = queryset.filter(user=user)
 
         if subsystem is not None:
-            return queryset.filter(subsystem=subsystem)
-        else:
-            return queryset
+            queryset = queryset.filter(subsystem=subsystem)
+
+        return queryset
 
 class GuardianProfileViewSet(viewsets.ModelViewSet):
     queryset = GuardianProfile.objects.all()
     serializer_class = GuardianProfileSerializer
 
-    def get_queryset(self):
-        queryset = self.queryset
-        user = self.request.query_params.get('user')
+    permission_classes = [permissions.IsAuthenticated]
 
-        if user is not None:
-            queryset =  queryset.filter(user=user)
+    def get_queryset(self):
+        user = self.request.user 
+        queryset = self.queryset.filter(user=user)
         return queryset
 
 class StudentGuardianViewSet(viewsets.ModelViewSet):
