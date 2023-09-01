@@ -66,7 +66,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -77,6 +76,9 @@ DATABASES = {
         'PORT' : '5432',
     }
 }
+
+
+
 
 
 # REST_FRAMEWORK = {
