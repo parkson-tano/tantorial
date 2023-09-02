@@ -1,11 +1,11 @@
 import axios from 'axios'
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../constant';
+import { API_URL, URL } from '../constant';
 
 export const loginUser = async (userData) => {
     try {
-        const res = await axios.post(`${API_URL}auth/login`, userData);
+        const res = await API_URL.post(`auth/login`, userData);
         const token = res.data.access;
         localStorage.setItem('jwtToken', token);
         const decoded = jwt_decode(token);
@@ -19,7 +19,7 @@ export const loginUser = async (userData) => {
 
 export const registerUser = async (userData) => {
     try {
-        const res = await axios.post(`${API_URL}auth/register`, userData);
+        const res = await axios.post(`${URL}auth/register`, userData);
         return res.data;
     } catch (err) {
         console.log(err);
@@ -31,24 +31,25 @@ export const registerUser = async (userData) => {
 export const updateUserProfile = async (user, profileData) => {
     try {
         // Fetch the user's profile using a GET request
-        const profileResponse = await axios.get(`${API_URL}profile/${user.account_type}profile-fetch/?user_id=${user?.id}`);
-        console.log(profileResponse);
+        const profileResponse = await API_URL.get(`profile/${user.account_type}profile/`);
+
         // Check if the profileResponse contains valid data and has the 'id' property
-        if (!profileResponse.data || !profileResponse.data[0].id) {
+        const profiles = profileResponse?.data?.results;
+        if (!Array.isArray(profiles) || profiles.length === 0 || !profiles[0].id) {
             throw new Error('Profile data or profile ID not found');
         }
 
-        const profileId = profileResponse.data[0].id;
+        const profileId = profiles[0].id;
+
         // Update the user's profile using a PATCH request
-        const updateResponse = await axios.patch(`${API_URL}profile/${user.account_type}profile/${profileId}/`, profileData);
+        const updateResponse = await API_URL.patch(`profile/${user.account_type}profile/${profileId}/`, profileData);
 
         return updateResponse.data; // Return the updated profile data
     } catch (err) {
         console.error(err);
-        throw new Error(err.response ? err.response.data.message : err.message);
+        throw new Error(err.response?.data?.message || err.message);
     }
-}
-
+};
 
 
 export const logoutUser = () => {
@@ -63,3 +64,10 @@ export const getCurrentUser = () => {
     }
     return null;
 }
+
+export const apiRequest = axios.create({
+    baseURL: API_URL,
+    headers: {
+        Authorization: `Bearer ${localStorage.jwtToken}`
+    }
+});

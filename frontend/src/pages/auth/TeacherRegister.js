@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../../context/auth-context'
 import { registerUser, updateUserProfile } from "../../actions/auth";
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matchesField } from '@mantine/form';
+import { useForm,  isEmail, hasLength, matchesField } from '@mantine/form';
 import { API_URL, fetchClasses, fetchSchools, fetchSubsystems } from "../../constant";
 
 export default function TeacherRegister() {

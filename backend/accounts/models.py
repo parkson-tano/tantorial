@@ -26,6 +26,8 @@ class User(AbstractUser):
     active = models.BooleanField(default=True)
     suspended = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+    archived =  models.BooleanField(default=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 

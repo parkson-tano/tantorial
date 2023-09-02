@@ -1,10 +1,23 @@
 import axios from "axios";
 
-export const API_URL = "http://127.0.0.1:8000/";
+export const URL = "http://127.0.0.1:8000/";
+
+
+const getJwtToken = () => {
+    return localStorage.getItem('jwtToken');
+};
+
+export const API_URL = axios.create({
+    baseURL: URL,
+    headers: {
+        Authorization: `Bearer ${getJwtToken()}`
+    }
+});
+
 
 export const fetchSchools = async (subsystem) => {
     try {
-        const response = await axios.get(`${API_URL}profile/schoolprofile/`);
+        const response = await API_URL.get(`profile/schoolprofile/`);
         const res = response.data.results;
         const data = res.map((item) => ({
             value: item.id,
@@ -18,7 +31,7 @@ export const fetchSchools = async (subsystem) => {
 
 export const fetchClasses = async () => {
     try {
-        const response = await axios.get(`${API_URL}subsystem/classroom/`);
+        const response = await API_URL.get(`subsystem/classroom/`);
         const res = response.data.results;
         const data = res.map((item) => ({
             value: item.id,
@@ -33,7 +46,7 @@ export const fetchClasses = async () => {
 
 export const fetchSubsystems = async () => {
     try {
-        const response = await axios.get(`${API_URL}subsystem/subsystem/`);
+        const response = await axios.get(`${URL}subsystem/subsystem/`);
         const res = await response?.data?.results;
         const data = await res?.map((item) => ({
             value: item.id,
