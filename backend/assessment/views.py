@@ -50,7 +50,6 @@ class StudentAnswerViewSet(viewsets.ModelViewSet):
         instance.archived = True
         instance.save()
 
-        
 class TeacherAssessmentViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherAssessmentSerializer
     permission_classes = [AccountTypePermission]  
@@ -58,9 +57,7 @@ class TeacherAssessmentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_datetime = timezone.now()
         return TeacherAssessment.objects.filter(
-            dateline__gt=current_datetime, 
-            deleted=False,
-            archived=False
+            dateline__gt=current_datetime
         )
 
     def perform_destroy(self, instance):
@@ -68,6 +65,11 @@ class TeacherAssessmentViewSet(viewsets.ModelViewSet):
         instance.archived = True
         instance.save()
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+        
 class AssessmentTypeViewSet(viewsets.ModelViewSet):
     queryset = AssessmentType.objects.all()
     serializer_class = AssessmentTypeSerializer
