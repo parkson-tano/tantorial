@@ -47,31 +47,22 @@ class StudentAnswerViewSet(viewsets.ModelViewSet):
         instance.save()
 
         
-
 class TeacherAssessmentViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherAssessmentSerializer
-    permission_classes = [IsAuthenticated, IsStudentInClass]
+    permission_classes = [AccountTypePermission]  
 
     def get_queryset(self):
-        class_id = self.request.query_params.get('class_id')
-
-        if class_id is not None:
-            current_datetime = timezone.now()
-            return TeacherAssessment.objects.filter(
-                assessment_class__id=class_id,
-                deleted=False,
-                archived=False,
-                dateline__gt=current_datetime,  # Filter by dateline not yet arrived
-            )
-        else:
-            return TeacherAssessment.objects.none()
+        current_datetime = timezone.now()
+        return TeacherAssessment.objects.filter(
+            dateline__gt=current_datetime, 
+            deleted=False,
+            archived=False
+        )
 
     def perform_destroy(self, instance):
         instance.deleted = True
         instance.archived = True
         instance.save()
-
-
 
 class AssessmentTypeViewSet(viewsets.ModelViewSet):
     queryset = AssessmentType.objects.all()
