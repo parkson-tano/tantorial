@@ -81,20 +81,31 @@ export default function SchoolRegister() {
       role: "school"
     };
 
-    try {
-      registerUser(data)
-        .then(async (user) => {
-          await handleLogin(); // Wait for login to finish before proceeding
+    registerUser(data)
+      .then(async (user) => {
+        try {
+          await handleLogin();
           const profileData = {
             school_name: form.values.schoolName,
             subsystem: form.values.subsystem,
           };
-          await updateUserProfile(user, profileData); // Wait for profile update to finish
-          navigate('/login');
-        });
-    } catch (error) {
-      console.error('Registration error:', error.message);
-    }
+          await setInterval(
+            () => {
+              updateUserProfile(user, profileData);
+              navigate('/login');
+            }
+            , 1000
+          )
+        
+        } catch (error) {
+          console.error('Error during registration:', error.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Registration error:', error.message);
+        // Handle the error appropriately, e.g., show an error message to the user
+      });
+
 
   };
 

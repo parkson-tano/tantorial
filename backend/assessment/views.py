@@ -33,7 +33,9 @@ class AssessmentTargetViewSet(viewsets.ModelViewSet):
         assessment = self.request.query_params_get('assessment', None)
         classroom = self.request.query_params_get('class', None)
         target = self.request.query_params_get('target', None)
-        teacher = self.request.query_params_get('user', None)
+        teacher = self.request.user
+
+        return queryset
 
 class StudentMarkViewSet(viewsets.ModelViewSet):
     queryset = StudentMark.objects.all()
