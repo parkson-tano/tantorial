@@ -1,14 +1,30 @@
 from rest_framework.permissions import BasePermission
-from .models import TeacherAssessment
 
-
-
-class IsStudentInClass(BasePermission):
+class AccountTypePermission(BasePermission):
     def has_permission(self, request, view):
-        user = request.user
-        class_id = request.query_params.get('class_id')
-
-        if class_id is not None:
-            return user.is_authenticated and user.studentprofile.classroom_id == class_id
-        else:
+        if not request.user.is_authenticated:
             return False
+
+        account_type = request.user.account_type
+
+        if account_type == 'student' and view.action in ['list', 'retrieve']:
+            return True
+
+        if account_type == 'teacher' and view.action in ['list', 'retrieve', 'destroy']:
+            return True
+
+        return False
+
+    def has_object_permission(self, request, view, obj):
+        if not request.user.is_authenticated:
+            return False
+
+        account_type = request.user.account_type
+
+        if account_type == 'student':
+            return obj.published
+
+        if account_type == 'teacher':
+            return obj.teacher == request.user and not obj.deleted and not obj.archived
+
+        return False
