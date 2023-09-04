@@ -70,9 +70,6 @@ export default function ParentRegister() {
             last_name: form.values.lastName,
             phone_number: form.values.phoneNumber,
           };
-          const profile = updateUserProfile(user, profileData);
-          navigate('/login');
-
         })
     } catch (error) {
       console.error('Registration error:', error.message);

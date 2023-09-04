@@ -78,34 +78,12 @@ export default function SchoolRegister() {
       suspended: false,
       active: true,
       admin: false,
-      role: "school"
+      role: "school",
+      school_name : form.values.schoolName,
+      subsystem : form.values.subsystem,
     };
 
-    registerUser(data)
-      .then(async (user) => {
-        try {
-          await handleLogin();
-          const profileData = {
-            school_name: form.values.schoolName,
-            subsystem: form.values.subsystem,
-          };
-          await setInterval(
-            () => {
-              updateUserProfile(user, profileData);
-              navigate('/login');
-            }
-            , 1000
-          )
-        
-        } catch (error) {
-          console.error('Error during registration:', error.message);
-        }
-      })
-      .catch((error) => {
-        console.error('Registration error:', error.message);
-        // Handle the error appropriately, e.g., show an error message to the user
-      });
-
+   registerUser(data)
 
   };
 

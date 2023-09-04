@@ -31,6 +31,7 @@ class User(AbstractUser):
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
 
@@ -64,30 +65,30 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        if instance.account_type == 'student':
-            StudentProfile.objects.create(user=instance)
-        elif instance.account_type == 'school':
-            SchoolProfile.objects.create(user=instance)
-        elif instance.account_type == 'teacher':
-            TeacherProfile.objects.create(user=instance)
-        elif instance.account_type == 'parent':
-            GuardianProfile.objects.create(user=instance)
-        else:
-            pass
+# @receiver(post_save, sender=User)
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         if instance.account_type == 'student':
+#             StudentProfile.objects.create(user=instance)
+#         elif instance.account_type == 'school':
+#             SchoolProfile.objects.create(user=instance)
+#         elif instance.account_type == 'teacher':
+#             TeacherProfile.objects.create(user=instance)
+#         elif instance.account_type == 'parent':
+#             GuardianProfile.objects.create(user=instance)
+#         else:
+#             pass
 
 
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    if instance.account_type == 'student':
-        instance.studentprofile.save()
-    elif instance.account_type == 'school':
-        instance.schoolprofile.save()
-    elif instance.account_type == 'teacher':
-        instance.teacherprofile.save()
-    elif instance.account_type == 'guardian':
-        instance.guardianprofile.save()
-    else:
-        pass
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#     if instance.account_type == 'student':
+#         instance.studentprofile.save()
+#     elif instance.account_type == 'school':
+#         instance.schoolprofile.save()
+#     elif instance.account_type == 'teacher':
+#         instance.teacherprofile.save()
+#     elif instance.account_type == 'guardian':
+#         instance.guardianprofile.save()
+#     else:
+#         pass

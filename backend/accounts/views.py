@@ -9,8 +9,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from subsystem.models import *
+from profiles.models import SchoolProfile, GuardianProfile, StudentProfile, TeacherProfile
+from profiles.serializers import SchoolProfileSerializer, GuardianProfile, StudentGuardian, TeacherProfileSerializer
+from rest_framework.decorators import action
+from django.contrib.auth import get_user_model
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
 
@@ -30,6 +34,35 @@ class RegisterView(viewsets.ModelViewSet):
     serializer_class = RegisterSerializer
 
 
+    @action(detail=False, methods=['post'])
+    def create_account(self, request):
+        # Create a new user account
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+
+            # Update user profile
+            profile_data = {
+                'school_name': request.data.get('school_name'),
+            }
+            subsystem_id = request.data.get('subsystem')
+
+            subsystem = Subsystem.objects.get(id = subsystem_id)
+
+            account_type = request.data.get('account_type')
+
+            print("----------------------------")
+            print(account_type)
+            print(profile_data)
+
+            # Assuming SchoolProfile has a OneToOne relationship with User
+            user_profile, created = SchoolProfile.objects.get_or_create(user=user, subsystem = subsystem)
+            for key, value in profile_data.items():
+                setattr(user_profile, key, value)
+            user_profile.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class LogoutAndBlacklistRefreshToken(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
