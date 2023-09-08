@@ -17,6 +17,7 @@ urlpatterns = [
     path('logout', LogoutAndBlacklistRefreshToken.as_view(), name='blacklist_token'),
     path('change_password/<int:number>', ChangePasswordView.as_view(),
          name='auth_change_password'),
+         
     path('register',
          RegisterView.as_view({'post': 'create'}), name='auth_register'),
 ]

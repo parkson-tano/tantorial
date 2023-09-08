@@ -29,6 +29,16 @@ class RegisterView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+        if user.account_type == 'student':
+            StudentProfile.objects.create(user = user)  
+        elif user.account_type == 'school':
+            SchoolProfile.objects.create(user = user)
+        elif user.account_type == 'teacher':
+            TeacherProfile.objects.create(user = user)
+        elif user.account_type == 'parent':
+            GuardianProfile.objects.create(user = user)
 
 class LogoutAndBlacklistRefreshToken(APIView):
     permission_classes = (permissions.AllowAny,)
