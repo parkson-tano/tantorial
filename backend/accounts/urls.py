@@ -20,4 +20,5 @@ urlpatterns = [
          
     path('register',
          RegisterView.as_view({'post': 'create'}), name='auth_register'),
+
 ]

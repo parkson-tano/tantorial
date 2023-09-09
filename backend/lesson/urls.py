@@ -1,12 +1,13 @@
-from django.urls import path, include
-from rest_framework import routers
-from . import views
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+from .views import CompleteLessonView, ProgressionViewSet, ChapterViewSet, LessonViewSet, CompetenceViewSet
 
-router = routers.DefaultRouter()
-router.register(r'progressions', views.ProgressionViewSet)
-router.register(r'chapters', views.ChapterViewSet)
-router.register(r'lessons', views.LessonViewSet)
-router.register(r'competences', views.CompetenceViewSet)
+router = DefaultRouter()
+router.register('progressions', ProgressionViewSet)
+router.register('chapters', ChapterViewSet)
+router.register('lessons', LessonViewSet)
+router.register('competences', CompetenceViewSet)
+router.register('complete-lesson', CompleteLessonView, basename='complete-lesson')
 
 urlpatterns = [
     path('', include(router.urls)),

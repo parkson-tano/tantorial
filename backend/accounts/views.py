@@ -11,6 +11,11 @@ from rest_framework import status, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import viewsets
+from django.views import View
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+
+
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
 
@@ -80,3 +85,11 @@ class ChangePasswordView(generics.UpdateAPIView):
 
             return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+class CompleteLessonView(View):
+    def post(self, request, lesson_id):
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        student = request.user 
+        lesson.students_completed.add(student)
+        return HttpResponse("Lesson completed successfully")
