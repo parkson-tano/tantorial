@@ -73,7 +73,6 @@ export default function StudentRegister() {
             subsystem: form.values.subsystem,
             student_class: form.values.class,
           };
-          const profile = updateUserProfile(user, profileData);
           navigate('/login');
 
         })

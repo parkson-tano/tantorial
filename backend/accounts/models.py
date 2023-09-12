@@ -21,7 +21,15 @@ class User(AbstractUser):
     username = models.CharField(max_length=35, null=True, unique=True)
     account_type = models.CharField(
         max_length=32, null=True, blank=True, choices=(('student', 'Student'), ('teacher', 'Teacher'), ('parent', 'Parent'), ('school', 'School')))
-    role = models.CharField(max_length=32, null=True, blank=True, )
+    role = models.CharField(max_length=32, null=True, blank=True, 
+                            choices=((None, None), 
+                                     ('supervisor', 'supervisor'),
+                                     ('coordinator', 'coordinator'),
+                                     ('member', 'member'),
+                                     ('focal-point', 'focal-point'),
+                                     ('class-supervisor', 'class-supervisor')
+                                     )
+                            )
     admin = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     suspended = models.BooleanField(default=False)
@@ -31,8 +39,9 @@ class User(AbstractUser):
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
 
     def __str__(self):
         return "{}".format(self.email)
@@ -64,30 +73,52 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        if instance.account_type == 'student':
-            StudentProfile.objects.create(user=instance)
-        elif instance.account_type == 'school':
-            SchoolProfile.objects.create(user=instance)
-        elif instance.account_type == 'teacher':
-            TeacherProfile.objects.create(user=instance)
-        elif instance.account_type == 'parent':
-            GuardianProfile.objects.create(user=instance)
-        else:
-            pass
+# @receiver(post_save, sender=User)
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         if instance.account_type == 'student':
+#             StudentProfile.objects.create(user=instance)
+#         elif instance.account_type == 'school':
+#             SchoolProfile.objects.create(user=instance)
+#         elif instance.account_type == 'teacher':
+#             TeacherProfile.objects.create(user=instance)
+#         elif instance.account_type == 'parent':
+#             GuardianProfile.objects.create(user=instance)
+#         else:
+#             pass
 
 
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    if instance.account_type == 'student':
-        instance.studentprofile.save()
-    elif instance.account_type == 'school':
-        instance.schoolprofile.save()
-    elif instance.account_type == 'teacher':
-        instance.teacherprofile.save()
-    elif instance.account_type == 'guardian':
-        instance.guardianprofile.save()
-    else:
-        pass
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#     if instance.account_type == 'student':
+#         instance.studentprofile.save()
+#     elif instance.account_type == 'school':
+#         instance.schoolprofile.save()
+#     elif instance.account_type == 'teacher':
+#         instance.teacherprofile.save()
+#     elif instance.account_type == 'guardian':
+#         instance.guardianprofile.save()
+#     else:
+#         pass
+
+
+class Permissions(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    edit_profile = models.BooleanField(default=False)
+    delete_profile = models.BooleanField(default=False)
+    create_profile = models.BooleanField(default=False)
+    edit_class = models.BooleanField(default=False)
+    delete_class = models.BooleanField(default=False)
+    create_class = models.BooleanField(default=False)
+    edit_subject = models.BooleanField(default=False)
+    delete_subject = models.BooleanField(default=False)
+    create_subject = models.BooleanField(default=False)
+    edit_assessment = models.BooleanField(default=False)
+    delete_assessment = models.BooleanField(default=False)
+    create_assessment = models.BooleanField(default=False)
+    edit_lesson = models.BooleanField(default=False)
+    delete_lesson = models.BooleanField(default=False)
+    create_lesson = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.user 

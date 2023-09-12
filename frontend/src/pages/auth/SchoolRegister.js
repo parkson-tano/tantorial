@@ -78,23 +78,12 @@ export default function SchoolRegister() {
       suspended: false,
       active: true,
       admin: false,
-      role: "school"
+      role: "school",
+      school_name : form.values.schoolName,
+      subsystem : form.values.subsystem,
     };
 
-    try {
-      registerUser(data)
-        .then(async (user) => {
-          await handleLogin(); // Wait for login to finish before proceeding
-          const profileData = {
-            school_name: form.values.schoolName,
-            subsystem: form.values.subsystem,
-          };
-          await updateUserProfile(user, profileData); // Wait for profile update to finish
-          navigate('/login');
-        });
-    } catch (error) {
-      console.error('Registration error:', error.message);
-    }
+   registerUser(data)
 
   };
 

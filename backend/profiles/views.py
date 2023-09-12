@@ -38,9 +38,6 @@ class SchoolProfileViewSet(viewsets.ModelViewSet):
         
         queryset = self.queryset  # Start with the base queryset
 
-        if user.is_superuser:
-            return queryset
-
         if user.is_authenticated:
             queryset = queryset.filter(user=user)
 

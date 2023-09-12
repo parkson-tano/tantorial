@@ -15,7 +15,7 @@ function classNames(...classes) {
 }
 
 export default function TeacherNav() {
-    const {logout} = useAuth()
+    const {logout, user} = useAuth()
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
@@ -96,7 +96,7 @@ export default function TeacherNav() {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="#"
+                                                        href="/"
                                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                     >
                                                         Your Profile
@@ -106,7 +106,7 @@ export default function TeacherNav() {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="#"
+                                                        href="/"
                                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                     >
                                                         Settings
@@ -115,12 +115,21 @@ export default function TeacherNav() {
                                             </Menu.Item>
                                             <Menu.Item>
                                                 {({ active }) => (
-                                                    <p
-                                                        onClick={() => logout()}
-                                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                    >
-                                                        Sign out
-                                                    </p>
+                                                   user ? (
+                                                        <p
+                                                            onClick={() => logout()}
+                                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                        >
+                                                            Sign out
+                                                        </p>
+                                                   ) : (
+                                                            <p
+                                                               
+                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                            >
+                                                               Login 
+                                                            </p>
+                                                   )
                                                 )}
                                             </Menu.Item>
                                         </Menu.Items>

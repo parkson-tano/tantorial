@@ -75,7 +75,6 @@ export default function TeacherRegister() {
             // school  : form.values.school,
             // subsystem: form.values.subsystem,
           };
-          const profile = updateUserProfile(user, profileData);
           navigate('/login');
 
         })
