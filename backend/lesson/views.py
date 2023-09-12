@@ -1,13 +1,10 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import *
 from .serializers import *
-from .permissions import IsLessonCreator
-from django.views import View
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
-
-
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -22,13 +19,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsLessonCreator] 
-
-
-    def get_permissions(self):
-        if self.action == 'list' and not self.request.user.is_authenticated:
-            return [permissions.IsAuthenticated()]
-        return super().get_permissions()
+    permission_classes = [permissions.IsAuthenticated] 
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -40,30 +31,27 @@ class LessonViewSet(viewsets.ModelViewSet):
         
         # Only the teacher can see their lessons until published
         if self.action != 'list' and user.is_authenticated:
-            queryset = queryset.filter(teacher=user)
+            queryset = queryset.filter(chapter__progression__teacher=user)
         
         return queryset
 
-
     def perform_create(self, serializer):
-        lesson_class = serializer.validated_data['lesson_class']
-        students = lesson_class.students.all()
-        lesson = serializer.save(teacher = self.request.user)
-        lesson.students.set(students)
-        serializer.save(teacher = self.request.user)
+        lesson = serializer.save()
+        students = lesson.chapter.progression.class_room.students.all()
+        for student in students:
+            StudentLesson.objects.create(student=student, lesson=lesson)
+
+    @action(detail=True, methods=['post'])
+    def complete(self, request, *args, **kwargs):
+        lesson = self.get_object()
+        student = request.user.student_profile
+
+        if StudentLesson.objects.filter(student=student, lesson=lesson).exists():
+            return Response("You have already completed this lesson.", status=400)
+
+        StudentLesson.objects.create(student=student, lesson=lesson)
+        return Response("Lesson completed successfully")
 
 class CompetenceViewSet(viewsets.ModelViewSet):
     queryset = Competence.objects.all()
     serializer_class = CompetenceSerializer
-
-
-class CompleteLessonView(viewsets.ModelViewSet):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-
-    @action(detail=True, methods=['post'])
-    def complete(self, request, *args, **kwargs):
-        instance = self.get_object()
-        student = request.user.student_profile
-        instance.students_completed.add(student)
-        return Response("Lesson completed successfully")
