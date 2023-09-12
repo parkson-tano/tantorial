@@ -9,6 +9,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions
 from rest_framework.permissions import IsAuthenticated
+from django.views import View
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+
 from rest_framework import status, viewsets
 from subsystem.models import *
 from profiles.models import SchoolProfile, GuardianProfile, StudentProfile, TeacherProfile
@@ -33,6 +37,16 @@ class RegisterView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+        if user.account_type == 'student':
+            StudentProfile.objects.create(user = user)  
+        elif user.account_type == 'school':
+            SchoolProfile.objects.create(user = user)
+        elif user.account_type == 'teacher':
+            TeacherProfile.objects.create(user = user)
+        elif user.account_type == 'parent':
+            GuardianProfile.objects.create(user = user)
 
     @action(detail=False, methods=['post'])
     def create_account(self, request):
@@ -103,3 +117,11 @@ class ChangePasswordView(generics.UpdateAPIView):
 
             return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+class CompleteLessonView(View):
+    def post(self, request, lesson_id):
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        student = request.user 
+        lesson.students_completed.add(student)
+        return HttpResponse("Lesson completed successfully")
