@@ -7,12 +7,12 @@ import TeacherRegister from '../../pages/auth/TeacherRegister';
 import ParentRegister from '../../pages/auth/ParentRegister';
 import SchoolRegister from '../../pages/auth/SchoolRegister';
 import { ForgotPassword } from '../../pages/auth/ForgotPassword';
-
+import TeacherHome from '../../pages/teacher/TeacherHome';
 
 function MainRoute() {
   return (
     <Routes>
-      <Route path="/" element={<AuthWelcome />} />
+      <Route path="/" element={<TeacherHome />} />
       <Route path="/signup-lander" element={<AuthWelcome />} />
       <Route path="/student-register" element={<StudentRegister />} />
       <Route path="/teacher-register" element={<TeacherRegister />} />

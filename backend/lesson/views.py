@@ -19,38 +19,38 @@ class ChapterViewSet(viewsets.ModelViewSet):
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [permissions.IsAuthenticated] 
+    # permission_classes = [permissions.IsAuthenticated] 
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        user = self.request.user
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     user = self.request.user
 
-        # Only show published lessons to all
-        if self.action == 'list' and user.is_authenticated:
-            queryset = queryset.filter(publish=True)
+    #     # Only show published lessons to all
+    #     if self.action == 'list' and user.is_authenticated:
+    #         queryset = queryset.filter(publish=True)
         
-        # Only the teacher can see their lessons until published
-        if self.action != 'list' and user.is_authenticated:
-            queryset = queryset.filter(chapter__progression__teacher=user)
+    #     # Only the teacher can see their lessons until published
+    #     if self.action != 'list' and user.is_authenticated:
+    #         queryset = queryset.filter(chapter__progression__teacher=user)
         
-        return queryset
+    #     return queryset
 
-    def perform_create(self, serializer):
-        lesson = serializer.save()
-        students = lesson.chapter.progression.class_room.students.all()
-        for student in students:
-            StudentLesson.objects.create(student=student, lesson=lesson)
+    # def perform_create(self, serializer):
+    #     lesson = serializer.save()
+    #     students = lesson.chapter.progression.class_room.students.all()
+    #     for student in students:
+    #         StudentLesson.objects.create(student=student, lesson=lesson)
 
-    @action(detail=True, methods=['post'])
-    def complete(self, request, *args, **kwargs):
-        lesson = self.get_object()
-        student = request.user.student_profile
+    # @action(detail=True, methods=['post'])
+    # def complete(self, request, *args, **kwargs):
+    #     lesson = self.get_object()
+    #     student = request.user.student_profile
 
-        if StudentLesson.objects.filter(student=student, lesson=lesson).exists():
-            return Response("You have already completed this lesson.", status=400)
+    #     if StudentLesson.objects.filter(student=student, lesson=lesson).exists():
+    #         return Response("You have already completed this lesson.", status=400)
 
-        StudentLesson.objects.create(student=student, lesson=lesson)
-        return Response("Lesson completed successfully")
+    #     StudentLesson.objects.create(student=student, lesson=lesson)
+    #     return Response("Lesson completed successfully")
 
 class CompetenceViewSet(viewsets.ModelViewSet):
     queryset = Competence.objects.all()

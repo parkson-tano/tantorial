@@ -4,10 +4,12 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../context/auth-context'
 
 const navigation = [
-    { name: 'Classes', href: '#', current: true },
+    { name: 'Home', href: '#', current: true },
     { name: 'Subject', href: '#', current: false },
     { name: 'Assesment', href: '#', current: false },
     { name: 'Progression', href: '#', current: false },
+    { name: 'Lesson', href: '#', current: false },
+    { name: 'Report', href: '#', current: false },
 ]
 
 function classNames(...classes) {
@@ -17,7 +19,7 @@ function classNames(...classes) {
 export default function TeacherNav() {
     const {logout, user} = useAuth()
     return (
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -49,8 +51,8 @@ export default function TeacherNav() {
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
-                                                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                    'rounded-md px-3 py-2 text-sm font-medium'
+                                                    item.current ? 'border-b-4 border-green-300 text-black ' : 'text-black hover:border-b-4 hover:border-green-300',
+                                                    'px-3 py-2 text-md font-medium mx-12'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
                                             >
@@ -147,7 +149,7 @@ export default function TeacherNav() {
                                     as="a"
                                     href={item.href}
                                     className={classNames(
-                                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                        item.current ? 'border-b-4 border-green-300 text-black' : 'text-dark-300 hover:bg-gray-700 hover:text-white',
                                         'block rounded-md px-3 py-2 text-base font-medium'
                                     )}
                                     aria-current={item.current ? 'page' : undefined}
