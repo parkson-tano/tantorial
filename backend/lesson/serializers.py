@@ -32,3 +32,28 @@ class CompetenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competence
         fields = '__all__'
+
+
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Class
+        fields = '__all__'
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+
+class SubjectAssignmentSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer(read_only=True)
+    class_assigned = ClassSerializer(read_only=True)
+
+    class Meta:
+        model = SubjectAssignment
+        fields = '__all__'
