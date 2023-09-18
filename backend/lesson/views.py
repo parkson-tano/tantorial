@@ -11,10 +11,41 @@ from rest_framework.response import Response
 class ProgressionViewSet(viewsets.ModelViewSet):
     queryset = Progression.objects.all()
     serializer_class = ProgressionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        # Only show published lessons to all
+        if self.action == 'list' and user.is_authenticated:
+            queryset = queryset.filter(teacher=user)
+        
+        # Only the teacher can see their lessons until published
+        if self.action != 'list' and user.is_authenticated:
+            queryset = queryset.filter(teacher=user)
+        
+        return queryset
+
 
 class ChapterViewSet(viewsets.ModelViewSet):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        # Only show published lessons to all
+        if self.action == 'list' and user.is_authenticated:
+            queryset = queryset.filter(progression__teacher=user)
+        
+        # Only the teacher can see their lessons until published
+        if self.action != 'list' and user.is_authenticated:
+            queryset = queryset.filter(progression__teacher=user)
+        
+        return queryset
 
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
@@ -55,3 +86,18 @@ class LessonViewSet(viewsets.ModelViewSet):
 class CompetenceViewSet(viewsets.ModelViewSet):
     queryset = Competence.objects.all()
     serializer_class = CompetenceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        # Only show published lessons to all
+        if self.action == 'list' and user.is_authenticated:
+            queryset = queryset.filter(teacher=user)
+        
+        # Only the teacher can see their lessons until published
+        if self.action != 'list' and user.is_authenticated:
+            queryset = queryset.filter(teacher=user)
+        
+        return queryset

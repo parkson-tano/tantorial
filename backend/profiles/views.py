@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from .models import *
 from .serializers import *
+from django.db.models import Q
+
 
 # Create your views here.
 
@@ -60,18 +62,43 @@ class GuardianProfileViewSet(viewsets.ModelViewSet):
 class StudentGuardianViewSet(viewsets.ModelViewSet):
     queryset = StudentGuardian.objects.all()
     serializer_class = StudentGuardianSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user 
+        queryset = self.queryset.filter(Q(guardian=user) | Q(student=user))
+        return queryset
+    
 
 class StudentSubjectViewSet(viewsets.ModelViewSet):
     queryset = StudentSubject.objects.all()
     serializer_class = StudentSubjectSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user 
+        queryset = self.queryset.filter(student=user)
+        return queryset
 
 class SubjectTeacherViewSet(viewsets.ModelViewSet):
     queryset = SubjectTeacher.objects.all()
     serializer_class = SubjectTeacherSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user 
+        queryset = self.queryset.filter(Q(teacher=user) | Q(subject__school__user=user))
+        return queryset
 
 class ClassTeacherViewSet(viewsets.ModelViewSet):
     queryset = ClassTeacher.objects.all()
     serializer_class = ClassTeacherSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user 
+        queryset = self.queryset.filter(Q(teacher=user) | Q(classroom__school__user=user))
+        return queryset
 
 
 
