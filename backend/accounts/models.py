@@ -13,6 +13,42 @@ import string
 # Create your models here.
 
 
+class Class(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Subject(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Teacher(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.user)
+
+
+class SubjectAssignment(models.Model):
+    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
+    class_assigned = models.ForeignKey('Class', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.teacher} - {self.subject} - {self.class_assigned}'
+
+
+
+
+
 class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
@@ -38,7 +74,7 @@ class User(AbstractUser):
     archived =  models.BooleanField(default=False)
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
-
+    school = models.ForeignKey(School, on_delete = models.CASCADE, null = True, blank = True)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
@@ -73,37 +109,48 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
 
-# @receiver(post_save, sender=User)
-# def create_profile(sender, instance, created, **kwargs):
-#     if created:
-#         if instance.account_type == 'student':
-#             StudentProfile.objects.create(user=instance)
-#         elif instance.account_type == 'school':
-#             SchoolProfile.objects.create(user=instance)
-#         elif instance.account_type == 'teacher':
-#             TeacherProfile.objects.create(user=instance)
-#         elif instance.account_type == 'parent':
-#             GuardianProfile.objects.create(user=instance)
-#         else:
-#             pass
+
+class School(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
-# @receiver(post_save, sender=User)
-# def save_profile(sender, instance, **kwargs):
-#     if instance.account_type == 'student':
-#         instance.studentprofile.save()
-#     elif instance.account_type == 'school':
-#         instance.schoolprofile.save()
-#     elif instance.account_type == 'teacher':
-#         instance.teacherprofile.save()
-#     elif instance.account_type == 'guardian':
-#         instance.guardianprofile.save()
-#     else:
-#         pass
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.account_type == 'student':
+            StudentProfile.objects.create(user=instance)
+        elif instance.account_type == 'school':
+            SchoolProfile.objects.create(user=instance)
+        elif instance.account_type == 'teacher':
+            TeacherProfile.objects.create(user=instance)
+        elif instance.account_type == 'parent':
+            GuardianProfile.objects.create(user=instance)
+        else:
+            pass
+
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    if instance.account_type == 'student':
+        instance.studentprofile.save()
+    elif instance.account_type == 'school':
+        instance.schoolprofile.save()
+    elif instance.account_type == 'teacher':
+        instance.teacherprofile.save()
+    elif instance.account_type == 'guardian':
+        instance.guardianprofile.save()
+    else:
+        pass
 
 
 class Permissions(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    class_permissions = models.ManyToManyField(Class)
+    subject_permissions = models.ManyToManyField(Subject)
     edit_profile = models.BooleanField(default=False)
     delete_profile = models.BooleanField(default=False)
     create_profile = models.BooleanField(default=False)
