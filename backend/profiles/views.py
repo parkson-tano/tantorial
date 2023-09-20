@@ -27,7 +27,7 @@ class StudentProfileViewSet(viewsets.ModelViewSet):
         user = self.request.user 
         queryset = self.queryset.filter(user=user)
         return queryset
-    
+
 
 class SchoolProfileViewSet(viewsets.ModelViewSet):
     queryset = SchoolProfile.objects.all()
@@ -47,6 +47,40 @@ class SchoolProfileViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(subsystem=subsystem)
 
         return queryset
+    
+    @action(methods=['post'], detail=True, url_path='create-class')
+    def create_class(self, request, pk=None):
+        school = self.get_object()
+        class_data = request.data.get('class')
+
+        if class_data:
+            ClassRoom.objects.create(school=school, **class_data)
+            return Response({'message': 'Class created successfully.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error': 'Class data not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=True, url_path='create-subject')
+    def create_subject(self, request, pk=None):
+        school = self.get_object()
+        subject_data = request.data.get('subject')
+
+        if subject_data:
+            Subject.objects.create(school=school, **subject_data)
+            return Response({'message': 'Subject created successfully.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error': 'Subject data not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=True, url_path='create-teacher')
+    def create_teacher(self, request, pk=None):
+        school = self.get_object()
+        teacher_data = request.data.get('teacher')
+
+        if teacher_data:
+            TeacherProfile.objects.create(school=school, **teacher_data)
+            return Response({'message': 'Teacher created successfully.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error': 'Teacher data not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class GuardianProfileViewSet(viewsets.ModelViewSet):
     queryset = GuardianProfile.objects.all()
