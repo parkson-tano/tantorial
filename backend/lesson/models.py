@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import *
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
-from profiles.models import StudentProfile
+from profiles.models import StudentProfile, TeacherProfile
 
 # Create your models here.
 
@@ -54,6 +54,8 @@ class Lesson(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
     students_completed = models.ManyToManyField(StudentProfile, related_name='completed_lessons')
+    teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.title
