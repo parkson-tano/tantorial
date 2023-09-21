@@ -119,6 +119,12 @@ class SubjectTeacherViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectTeacherSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+        queryset = self.queryset.filter(Q(teacher__user=user) | Q(subject__school__user=user))
+
+        return queryset
+
 class ClassTeacherViewSet(viewsets.ModelViewSet):
     queryset = ClassTeacher.objects.all()
     serializer_class = ClassTeacherSerializer

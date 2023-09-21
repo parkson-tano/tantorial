@@ -57,8 +57,10 @@ class TeacherProfile(models.Model):
 class ClassTeacher(models.Model):
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)
-    class_room = models.ManyToManyField(
-        ClassRoom)
+    subject = models.ManyToManyField(
+        Subject)
+    class_room = models.ForeignKey(
+        ClassRoom, on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
