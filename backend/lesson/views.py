@@ -106,6 +106,21 @@ class LessonViewSet(viewsets.ModelViewSet):
         instance.delete = True 
         instance.save()
 
+
+        def get_queryset(self):
+        return Lesson.objects.filter(teacher=self.request.user.teacherprofile)
+
+    def perform_create(self, serializer):
+        serializer.save(teacher=self.request.user.teacherprofile)
+
+    def perform_update(self, serializer):
+        serializer.save(teacher=self.request.user.teacherprofile)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+
 class CompetenceViewSet(viewsets.ModelViewSet):
     queryset = Competence.objects.all()
     serializer_class = CompetenceSerializer
