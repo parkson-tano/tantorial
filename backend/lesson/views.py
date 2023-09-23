@@ -113,8 +113,7 @@ class LessonViewSet(viewsets.ModelViewSet):
         instance.delete = True 
         instance.save()
 
-
-        def get_queryset(self):
+    def get_queryset(self):
         return Lesson.objects.filter(teacher=self.request.user.teacherprofile)
 
     def perform_create(self, serializer):
@@ -125,40 +124,11 @@ class LessonViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         instance.delete()
-
-
-
-    @action(detail=True, methods=['post'])
-    def publish(self, request, *args, **kwargs):
-        lesson = self.get_object()
-        lesson.publish = True 
-        lesson.save()
-        return Response("Lesson published successfully")
-
-    def perform_destroy(self, instance):
-        instance.delete = True 
-        instance.save()
-
-
-        def get_queryset(self):
-        return Lesson.objects.filter(teacher=self.request.user.teacherprofile)
-
-    def perform_create(self, serializer):
-        serializer.save(teacher=self.request.user.teacherprofile)
-
-    def perform_update(self, serializer):
-        serializer.save(teacher=self.request.user.teacherprofile)
-
-    def perform_destroy(self, instance):
-        instance.delete()
-
-
 
 class CompetenceViewSet(viewsets.ModelViewSet):
     queryset = Competence.objects.all()
     serializer_class = CompetenceSerializer
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -174,10 +144,6 @@ class CompetenceViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(teacher=user)
         
         return queryset
-=======
-=======
->>>>>>> 3939e8daf9edc541d7eecfaabb52952ea8dd26e7
-
 
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -225,9 +191,4 @@ class SubjectAssignmentViewSet(viewsets.ModelViewSet):
         subject_assignment.class_assigned = None
         subject_assignment.save()
 
-<<<<<<< HEAD
         return Response("Teacher unassigned from the subject and class.")
->>>>>>> allowed a school to be abel to create classes, subject and teacher and also alowed a school to be able to assign a teacher to a subject and a class
-=======
-        return Response("Teacher unassigned from the subject and class.")
->>>>>>> 3939e8daf9edc541d7eecfaabb52952ea8dd26e7

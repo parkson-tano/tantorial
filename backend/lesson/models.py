@@ -56,7 +56,6 @@ class Lesson(models.Model):
     students_completed = models.ManyToManyField(StudentProfile, related_name='completed_lessons')
     teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.title
     
