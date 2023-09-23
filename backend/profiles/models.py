@@ -54,26 +54,34 @@ class TeacherProfile(models.Model):
         return self.first_name + ' ' + self.last_name
 
 
+class ClassTeacher(models.Model):
+    teacher = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.ManyToManyField(
+        Subject)
+    class_room = models.ForeignKey(
+        ClassRoom, on_delete=models.CASCADE, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.teacher.first_name + ' ' + self.teacher.last_name
+
+
+
+
 class SubjectTeacher(models.Model):
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)
     subject = models.ManyToManyField(
         Subject)
+    
+    class_room = models.ForeignKey(ClassRoom, on_delete = models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.teacher.first_name + ' ' + self.teacher.last_name
 
 
-class ClassTeacher(models.Model):
-    teacher = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
-    class_room = models.ManyToManyField(
-        ClassRoom)
-    date_created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.teacher.first_name + ' ' + self.teacher.last_name
 
 
 class GuardianProfile(models.Model):

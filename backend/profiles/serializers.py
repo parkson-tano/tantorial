@@ -32,6 +32,9 @@ class StudentSubjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SubjectTeacherSerializer(serializers.ModelSerializer):
+    subject = serializers.PrimaryKeyRelatedField(queryset = Subject.objects.all())
+    class_room = serializers.PrimaryKeyRelatedField(queryset = ClassRoom.objects.all())
+    
     class Meta:
         model = SubjectTeacher
         fields = '__all__'
