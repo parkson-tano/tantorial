@@ -5,6 +5,7 @@ from .serializers import *
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
 # Create your views here.
 
 class ProgressionViewSet(viewsets.ModelViewSet):
@@ -14,8 +15,9 @@ class ProgressionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        user = self.request.user
-
+        user_id = self.request.query_params.get('user', None)
+        user = User.objects.get(id=user_id) if user_id is not None else None
+        
         # Only show published lessons to all
         if self.action == 'list' and user.is_authenticated:
             queryset = queryset.filter(teacher=user)
@@ -34,7 +36,8 @@ class ChapterViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        user = self.request.user
+        user_id = self.request.query_params.get('user', None)
+        user = User.objects.get(id=user_id) if user_id is not None else None
 
         # Only show published lessons to all
         if self.action == 'list' and user.is_authenticated:
@@ -72,18 +75,10 @@ class LessonViewSet(viewsets.ModelViewSet):
         for student in students:
             StudentLesson.objects.get_or_create(student=student, lesson=lesson)
 
-    def perform_update(self, serializer):
-        lesson = serializer.save()
-        students = lesson.chapter.progression.class_room.students.all()
-        
-        for student in students:
-            StudentLesson.objects.get_or_create(student=student, lesson=lesson)
-
     @action(detail=True, methods=['post'])
     def complete(self, request, *args, **kwargs):
         lesson = self.get_object()
         student = request.user.student_profile
->>>>>>> allowed a school to be abel to create classes, subject and teacher and also alowed a school to be able to assign a teacher to a subject and a class
 
     # def perform_create(self, serializer):
     #     lesson = serializer.save()
@@ -110,7 +105,7 @@ class LessonViewSet(viewsets.ModelViewSet):
         return Response("Lesson published successfully")
 
     def perform_destroy(self, instance):
-        instance.delete = True 
+        instance.delete
         instance.save()
 
     def get_queryset(self):
@@ -133,7 +128,8 @@ class CompetenceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        user = self.request.user
+        user_id = self.request.query_params.get('user', None)
+        user = User.objects.get(id=user_id) if user_id is not None else None
 
         # Only show published lessons to all
         if self.action == 'list' and user.is_authenticated:
